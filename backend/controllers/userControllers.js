@@ -3,7 +3,7 @@ const generateToken = require("../config/generateToken.JS");
 const { User } = require("../models/userModel");
 const registerUser = asyncHandler(async (req, res) => {
   console.log(req.body);
-  const { username, email, password, dob, gender } = req.body;
+  const { username, email, password, dob, gender, pic } = req.body;
 
   if (!username || !email || !password || !dob || !gender) {
     res.status(400);
@@ -20,11 +20,12 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     dob,
     gender,
+    pic,
   });
   //   console.log(user.username);
   if (user)
     res.status(201).json({
-      username: "trawwade",
+      username: username,
       email: user.email,
       password: user.password,
       gender: user.gender,
@@ -41,12 +42,12 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const authUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email: email });
-  if (!user) res.status(400).json("user does not exist");
+  const { username, password } = req.body;
+  const user = await User.findOne({ username: username });
+  if (!user) return res.status(400).json("user does not exist");
   if (user && (await user.matchPassword(password))) {
     res.status(200).json({
-      username: "trawwade",
+      username: user.username,
       email: user.email,
       // password: user.password,
       gender: user.gender,
@@ -61,5 +62,18 @@ const authUser = asyncHandler(async (req, res) => {
     throw new Error("invalid email or password");
   }
 });
+const allUsers = asyncHandler(async (req, res) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { username: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+  const users = await User.find(keyword);
+  // .find({ _id: { $ne: req.user._id } });
+  res.send(users);
+});
 
-module.exports = { registerUser, authUser };
+module.exports = { registerUser, authUser, allUsers };

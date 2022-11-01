@@ -8,13 +8,38 @@ import {
   InputGroup,
   Button,
   InputRightElement,
+  useToast,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../utils/apiCalls";
 const Login = () => {
   const [show, setShow] = useState(false);
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const toast = useToast();
   const handleSubmit = () => {
     console.log(user);
+    console.log(user);
+    // console.log(newUser);
+    setLoading(true);
+
+    if (!user.username || !user.password) {
+      toast({
+        title: "please fill in all the details.",
+        // description: .",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+      return;
+    }
+
+    loginUser(user, toast, setLoading, navigate);
   };
+
   return (
     <>
       <VStack spacing="5px" color={"b"}>
@@ -22,7 +47,7 @@ const Login = () => {
           <FormLabel>username</FormLabel>
           <Input
             placeholder="enter your username"
-            onChange={(e) => setUser({ ...user, name: e.target.value })}
+            onChange={(e) => setUser({ ...user, username: e.target.value })}
           />
         </FormControl>
         {/* <FormControl id="email" isRequired>
@@ -48,7 +73,13 @@ const Login = () => {
           </InputGroup>
         </FormControl>
 
-        <Button color={"red"} width="100%" mt={15} onClick={handleSubmit}>
+        <Button
+          color={"red"}
+          width="100%"
+          mt={15}
+          onClick={handleSubmit}
+          isLoading={loading}
+        >
           login
         </Button>
       </VStack>

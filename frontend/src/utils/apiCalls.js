@@ -64,3 +64,61 @@ export const loginUser = async (user, toast, setLoading, navigate) => {
     setLoading(false);
   }
 };
+export const searchUser = async (
+  user,
+  search,
+  toast,
+  setLoading,
+  setSearchResults
+) => {
+  try {
+    setLoading(true);
+    const config = {
+      headers: { Authorization: `Bearer ${user.token}` },
+    };
+    const { data } = await axios.get(`/api/users?search=${search}`, config);
+
+    setLoading(false);
+    setSearchResults(data);
+  } catch (error) {
+    toast({
+      title: "error occured.",
+      description: "failed to load search results",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom-right",
+    });
+    setLoading(false);
+  }
+};
+export const acessChat = async (
+  userId,
+  token,
+  toast,
+  setSelectedChat,
+  setLoadingChat,
+  onclose
+) => {
+  try {
+    setLoadingChat(true);
+    const config = {
+      "Content-type": "application/json",
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    const { data } = await axios.post(`/api/chat`, { userId }, config);
+    setSelectedChat(data);
+    setLoadingChat(false);
+    onclose();
+  } catch (error) {
+    toast({
+      title: "error occured while fetching chat.",
+      description: error.message,
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom-right",
+    });
+    setLoadingChat(false);
+  }
+};

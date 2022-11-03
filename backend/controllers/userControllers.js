@@ -67,12 +67,13 @@ const allUsers = asyncHandler(async (req, res) => {
     ? {
         $or: [
           { username: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
+          // { email: { $regex: req.query.search, $options: "i" } },
         ],
       }
     : {};
   const users = await User.find(keyword);
   // .find({ _id: { $ne: req.user._id } });
+
   res.send(users);
 });
 

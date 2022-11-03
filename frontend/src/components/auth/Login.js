@@ -10,13 +10,15 @@ import {
   InputRightElement,
   useToast,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { loginUser } from "../../utils/apiCalls";
 const Login = () => {
   const [show, setShow] = useState(false);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
+  console.log(location);
   const toast = useToast();
   const handleSubmit = () => {
     console.log(user);

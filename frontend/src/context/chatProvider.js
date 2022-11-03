@@ -13,8 +13,8 @@ const ChatProvider = ({ children }) => {
     if (!userInfo) {
       navigate("/");
     }
-    console.log("hello");
-    console.log(location);
+    // console.log("hello");
+    // console.log(location);
   }, [location, navigate]);
 
   return (

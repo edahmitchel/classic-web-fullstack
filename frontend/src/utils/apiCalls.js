@@ -92,13 +92,17 @@ export const searchUser = async (
     setLoading(false);
   }
 };
+
+// access or create new chat
 export const acessChat = async (
   userId,
   token,
   toast,
   setSelectedChat,
   setLoadingChat,
-  onclose
+  onclose,
+  chatList,
+  setChatList
 ) => {
   try {
     setLoadingChat(true);
@@ -107,6 +111,10 @@ export const acessChat = async (
       headers: { Authorization: `Bearer ${token}` },
     };
     const { data } = await axios.post(`/api/chat`, { userId }, config);
+    // setting chat data if it already exists
+    if (!chatList.find((c) => c._id === data._id)) {
+      setChatList([data, ...chatList]);
+    }
     setSelectedChat(data);
     setLoadingChat(false);
     onclose();
@@ -120,5 +128,29 @@ export const acessChat = async (
       position: "bottom-right",
     });
     setLoadingChat(false);
+  }
+};
+// fetch chats]
+export const fetchChats = async (token, setChatList, toast) => {
+  // console.log(user._id);
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get("/api/chat", config);
+    console.log(data);
+    setChatList(data);
+  } catch (error) {
+    toast({
+      title: "Error Occured!",
+      description: "Failed to Load the chats",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom-left",
+    });
   }
 };

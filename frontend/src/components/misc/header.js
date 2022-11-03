@@ -18,6 +18,7 @@ import {
   DrawerBody,
   Input,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -36,7 +37,7 @@ const SideDrawer = () => {
   const [loading, setLoading] = useState();
   const [loadingChat, setloadingChat] = useState(false);
 
-  const { user, setSelectedChat } = ChatState();
+  const { user, setSelectedChat, chatList, setChatList } = ChatState();
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
     navigate("/");
@@ -58,7 +59,16 @@ const SideDrawer = () => {
   };
   const startChat = (userId) => {
     const { token } = user;
-    acessChat(userId, token, toast, setSelectedChat, setloadingChat, onclose);
+    acessChat(
+      userId,
+      token,
+      toast,
+      setSelectedChat,
+      setloadingChat,
+      onClose,
+      chatList,
+      setChatList
+    );
   };
 
   return (
@@ -128,6 +138,7 @@ const SideDrawer = () => {
                 />
               ))
             )}
+            {loadingChat && <Spinner mr={"auto"} display="flex" />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

@@ -1,11 +1,12 @@
-import { Box, Stack, useToast } from "@chakra-ui/react";
+import { Box, Stack, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { getSender } from "../../config/chatLogic";
 import { ChatState } from "../../context/chatProvider";
 import { fetchChats } from "../../utils/apiCalls";
 import ChatLoading from "../chatLoading";
 
-const MyChats = () => {
-  const [loggedUser, setLoggedUser] = useState();
+const MyChats = ({ loggedUser, fetchAgain, setFetchAgain }) => {
+  //   const [loggedUser, setLoggedUser] = useState();
   const {
     user,
     setUser,
@@ -14,14 +15,14 @@ const MyChats = () => {
     chatList,
     setChatList,
   } = ChatState();
-  const token = user.token;
-  const toast = useToast();
-  useEffect(() => {
-    setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
-    fetchChats(token, setChatList, toast);
+  //   const token = user.token;
+  //   const toast = useToast();
+  //   useEffect(() => {
+  //     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
+  //     fetchChats(token, setChatList, toast);
 
-    return () => {};
-  }, []);
+  //     return () => {};
+  //   }, []);
 
   return (
     <>
@@ -31,7 +32,7 @@ const MyChats = () => {
         alignItems={"center"}
         p={3}
         backgroundColor="whatsapp.200"
-        w={{ base: "100%", md: "31%" }}
+        w={{ base: "100%", md: "15%" }}
         borderRadius="lg"
         borderWidth={"1px"}
       >
@@ -71,7 +72,8 @@ const MyChats = () => {
                     borderRadius="lg"
                     key={chat._id}
                   >
-                    {chat.chatName}
+                    <Text>{getSender(loggedUser, chat.users)}</Text>
+                    {/* {chat.chatName} */}
                   </Box>
                 ))}
             </Stack>

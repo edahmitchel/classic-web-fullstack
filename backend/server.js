@@ -6,13 +6,14 @@ const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+const path = require("path");
 dotenv.config();
 connection();
 const app = express();
 app.use(express.json());
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
+// app.get("/", (req, res) => {
+//   res.send("hello world");
+// });
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 app.get("/api/chat/:id", (req, res) => {
@@ -20,8 +21,29 @@ app.get("/api/chat/:id", (req, res) => {
   cons;
 });
 app.use("/api/users", userRoutes);
-app.use(notFound); //handle wrong routes
+
+// --------------------------deployment------------------------------
+
+const __dirname1 = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "/frontend/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running..");
+  });
+}
+
+// --------------------------deployment------------------------------
+
+// Error Handling middlewares
+app.use(notFound);
 app.use(errorHandler);
+
 const PORT = process.env.PORT || 5001;
 const server = app.listen(PORT, console.log(`running at port ${PORT}`));
 const io = require("socket.io")(server, {
@@ -54,5 +76,9 @@ io.on("connection", (socket) => {
     });
     // socket.on("disconnect", () => {
     //   console.log("user disconnected");
+  });
+  socket.off("setup", () => {
+    console.log("user disconnected");
+    socket.leave(userData._id);
   });
 });

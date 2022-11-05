@@ -8,6 +8,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import { Lottie } from "@lottiefiles/lottie-js";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { getSender, getSenderFull } from "../../config/chatLogic";
@@ -15,11 +16,19 @@ import { ChatState } from "../../context/chatProvider";
 import ScrollableChat from "../scrollableChat";
 import ProfileComp from "./profileComp";
 import io from "socket.io-client";
-
-const ENDPOINT = "http://localhost:5000";
+import animationData from "../../animation/52671-typing-animation-in-chat.json";
+const ENDPOINT = "https://classic-web-chat.herokuapp.com/";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
   const toast = useToast();
   const { user, selectedChat, setSelectedChat } = ChatState();
   const [messages, setMessages] = useState([]);
@@ -196,7 +205,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               {/* MESSAGES */}
             </Box>
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
-              {istyping ? <div>loading...</div> : <></>}
+              {istyping ? (
+                <div>
+                  loading...
+                  {/* <Lottie
+                    options={defaultOptions}
+                    width={70}
+                    style={{ marginBottom: 15, marginLeft: 0 }}
+                  /> */}
+                </div>
+              ) : (
+                <></>
+              )}
               <Input
                 placeholder={"Type your message"}
                 value={newMessage}

@@ -6,6 +6,7 @@ const Chat = require("../models/chatModel");
 const Message = require("../models/messageModel");
 const { User } = require("../models/userModel");
 const sendMessage = asyncHandler(async (req, res) => {
+  console.log("i got here");
   const { content, chatId } = req.body;
   console.log(content, chatId);
   if (!content || !chatId) {
@@ -38,6 +39,7 @@ const sendMessage = asyncHandler(async (req, res) => {
     await Chat.findByIdAndUpdate(req.body.chatId, {
       latestMessage: newmessage,
     });
+    console.log(newMessage)
     res.json(newmessage);
   } catch (error) {
     throw new Error(error.message);

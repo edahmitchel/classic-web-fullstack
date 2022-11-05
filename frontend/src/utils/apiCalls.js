@@ -154,3 +154,42 @@ export const fetchChats = async (token, setChatList, toast) => {
     });
   }
 };
+export const sendMessageCall = async (
+  token,
+  toast,
+  newMessage,
+  selectedChat,
+  setNewMessage,
+  setMessages,
+  messages
+) => {
+  // console.log(
+  //   `this is data to send${token} ${newMessage} ${selectedChat._id}, ${messages}}`
+  // );
+  try {
+    let messageToSend = JSON.parse({
+      content: "my sec group messagerrtr",
+      chatId: "6361807a571c90d831a9cfac",
+    });
+
+    const config = {
+      header: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios.post("/api/message", messageToSend, config);
+    console.log(`this is data${data}`);
+    setNewMessage("");
+    // setMessages({ ...messages, data });
+  } catch (error) {
+    toast({
+      title: "Error Occured!",
+      description: error.message,
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom",
+    });
+  }
+};

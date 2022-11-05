@@ -4,7 +4,7 @@ const { User } = require("../models/userModel");
 
 const accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
-  console.log(`THIS IS USER ${userId}`);
+  // console.log(`THIS IS USER ${userId}`);
   if (!userId) {
     console.log("user param not sent with request");
     return res.sendStatus(400);
@@ -22,7 +22,7 @@ const accessChat = asyncHandler(async (req, res) => {
     path: "latestMessage.sender",
     select: "name pic email",
   });
-  console.log(`this is is chat /n ${isChat}`);
+  // console.log(`this is is chat /n ${isChat}`);
   if (isChat.length > 0) {
     res.send(isChat[0]);
   } else {
@@ -36,7 +36,7 @@ const accessChat = asyncHandler(async (req, res) => {
       const fullChat = await Chat.findOne({
         _id: createdChat._id,
       }).populate("users", "-password");
-      console.log(fullChat);
+      // console.log(fullChat);
       res.status(200).json(fullChat);
     } catch (error) {
       res.status(400);
@@ -56,7 +56,7 @@ const fetchChats = asyncHandler(async (req, res) => {
           path: "latestMessage.sender",
           select: "name pic email",
         });
-        console.log(results);
+        // console.log(results);
         res.status(200).send(results);
       });
   } catch (error) {
@@ -95,7 +95,7 @@ const createIntrestChat = asyncHandler(async (req, res) => {
   const { name } = req.body;
   const users = JSON.parse(req.body.users);
   users.push(req.user._id);
-  console.log(`this is ${users}`);
+  // console.log(`this is ${users}`);
   try {
     const groupChat = await Chat.create({
       chatName: name,

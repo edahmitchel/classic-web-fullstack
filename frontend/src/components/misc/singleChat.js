@@ -1,12 +1,100 @@
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Box, IconButton, Text } from "@chakra-ui/react";
-import React from "react";
+import {
+  Box,
+  FormControl,
+  IconButton,
+  Input,
+  Spinner,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { getSender, getSenderFull } from "../../config/chatLogic";
 import { ChatState } from "../../context/chatProvider";
+import { sendMessageCall } from "../../utils/apiCalls";
+import ScrollableChat from "../scrollableChat";
 import ProfileComp from "./profileComp";
+import io from "socket.io-client";
+
+const ENDPOINT = "http://localhost:5000";
+var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
+  const toast = useToast();
   const { user, selectedChat, setSelectedChat } = ChatState();
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [newMessage, setNewMessage] = useState("");
+  const sendMessage = async (e) => {
+    if (e.key === "Enter") {
+      try {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+        const { data } = await axios.post(
+          "/api/message",
+          { content: newMessage, chatId: selectedChat._id },
+          config
+        );
+        setNewMessage("");
+        setMessages([...messages, data]);
+        console.log(data);
+      } catch (error) {
+        toast({
+          title: "Error Occured!",
+          description: error.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+        });
+      }
+    }
+  };
+  const fetchMessage = async () => {
+    if (!selectedChat) return;
+    try {
+      const config = {
+        headers: {
+          // "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      setLoading(true);
+      const { data } = await axios.get(
+        `/api/message/${selectedChat._id}`,
+        config
+      );
+      console.log(messages);
+      setMessages(data);
+      setLoading(false);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
+
+  const typingHandler = (e) => {
+    setNewMessage(e.target.value);
+    // typing indicatoer logic
+  };
+  useEffect(() => {
+    fetchMessage();
+  }, [selectedChat]);
+  useEffect(() => {
+    socket = io(ENDPOINT);
+  }, []);
+
   return (
     <>
       {selectedChat ? (
@@ -46,7 +134,37 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             h="100%"
             borderRadius={"lg"}
             overflowY="hidden"
-          ></Box>
+          >
+            {loading ? (
+              <Spinner
+                size={"xl"}
+                w={20}
+                h={20}
+                alignSelf="center"
+                margin={"auto"}
+              />
+            ) : (
+              <>
+                <div>{/* {messages} */}</div>
+              </>
+            )}
+            <Box
+              display={"flex"}
+              flexDirection="column"
+              overflowY={"scroll"}
+              // scrollbar width change to none in css
+            >
+              <ScrollableChat messages={messages} />
+              {/* MESSAGES */}
+            </Box>
+            <FormControl onKeyDown={sendMessage} isRequired mt={3}>
+              <Input
+                placeholder={"Type your message"}
+                value={newMessage}
+                onChange={typingHandler}
+              />
+            </FormControl>
+          </Box>
         </>
       ) : (
         <Box

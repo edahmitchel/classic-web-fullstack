@@ -23,4 +23,19 @@ app.use("/api/users", userRoutes);
 app.use(notFound); //handle wrong routes
 app.use(errorHandler);
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, console.log(`running at port ${PORT}`));
+const server = app.listen(PORT, console.log(`running at port ${PORT}`));
+const io = require("socket.io")(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+io.on("connection", (socket) => {
+  console.log("a user connected to socket ");
+  socket.on("setup", (useerData) => {
+    socket.join(useerData._id);
+    socket.emit("connected");
+  });
+  // socket.on("disconnect", () => {
+  //   console.log("user disconnected");
+});

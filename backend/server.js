@@ -4,6 +4,7 @@ const chats = require("./data");
 const connection = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 dotenv.config();
 connection();
@@ -13,7 +14,7 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 app.use("/api/chat", chatRoutes);
-
+app.use("/api/message", messageRoutes);
 app.get("/api/chat/:id", (req, res) => {
   console.log(req.params.id);
   cons;

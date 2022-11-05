@@ -1,19 +1,19 @@
-import { Box, Stack, Text, useToast } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Box, Stack, Text } from "@chakra-ui/react";
+import React from "react";
 import { getSender } from "../../config/chatLogic";
 import { ChatState } from "../../context/chatProvider";
-import { fetchChats } from "../../utils/apiCalls";
+// import { fetchChats } from "../../utils/apiCalls";
 import ChatLoading from "../chatLoading";
 
 const MyChats = ({ loggedUser, fetchAgain, setFetchAgain }) => {
   //   const [loggedUser, setLoggedUser] = useState();
   const {
-    user,
-    setUser,
+    // user,
+    // setUser,
     selectedChat,
     setSelectedChat,
     chatList,
-    setChatList,
+    // setChatList,
   } = ChatState();
   //   const token = user.token;
   //   const toast = useToast();
@@ -60,7 +60,7 @@ const MyChats = ({ loggedUser, fetchAgain, setFetchAgain }) => {
           {chatList ? (
             <Stack overflowY={"scroll"}>
               {chatList
-                .filter((chat) => chat.isGroupChat == false)
+                .filter((chat) => chat.isGroupChat === false)
                 .map((chat) => (
                   <Box
                     onClick={() => setSelectedChat(chat)}

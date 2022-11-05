@@ -15,7 +15,7 @@ const ChatProvider = ({ children }) => {
     }
     // console.log("hello");
     // console.log(location);
-  }, [location, navigate]);
+  }, [location.pathname]);
 
   return (
     <ChatContext.Provider

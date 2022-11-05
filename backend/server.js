@@ -32,10 +32,27 @@ const io = require("socket.io")(server, {
 });
 io.on("connection", (socket) => {
   console.log("a user connected to socket ");
-  socket.on("setup", (useerData) => {
-    socket.join(useerData._id);
+  socket.on("setup", (userData) => {
+    socket.join(userData._id);
+    // console.log(userData._id);
     socket.emit("connected");
   });
-  // socket.on("disconnect", () => {
-  //   console.log("user disconnected");
+  socket.on("join chat", (room) => {
+    socket.join(room);
+    console.log("user joined room" + room);
+  });
+  socket.on("typing", (room) => socket.in(room).emit("typing"));
+  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
+  socket.on("new message", (newMessageRecieved) => {
+    // console.log("new message", newMessageRecieved);
+    var chat = newMessageRecieved.chat;
+    if (!chat.users) return console.log("chat users not defined");
+    chat.users.forEach((user) => {
+      console.log(user);
+      if (user._id === newMessageRecieved.sender._id) return;
+      socket.in(user._id).emit("message recieved", newMessageRecieved);
+    });
+    // socket.on("disconnect", () => {
+    //   console.log("user disconnected");
+  });
 });

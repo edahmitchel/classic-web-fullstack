@@ -1,19 +1,19 @@
-import { Box, Stack, Text, useToast } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { getSender } from "../../config/chatLogic";
+import { Box, Stack, Text } from "@chakra-ui/react";
+import React from "react";
+// import { getSender } from "../../config/chatLogic";
 import { ChatState } from "../../context/chatProvider";
-import { fetchChats } from "../../utils/apiCalls";
+// import { fetchChats } from "../../utils/apiCalls";
 import ChatLoading from "../chatLoading";
 
 const Intrests = ({ loggedUser }) => {
   //   const [loggedUser, setLoggedUser] = useState();
   const {
-    user,
+    // user,
     // setUser,
     selectedChat,
     setSelectedChat,
     chatList,
-    setChatList,
+    // setChatList,
   } = ChatState();
   //   const token = user.token;
   //   const toast = useToast();

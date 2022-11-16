@@ -49,12 +49,12 @@ const ProfileComp = ({ user, children }) => {
               src={user.pic}
               alt={user.username}
             />
-            <Text
+            {/* <Text
               fontSize={{ base: "28px", md: "30px" }}
               fontFamily="Work sans"
-            >
-              Email: {user.email}
-            </Text>
+            > */}
+            {/* : {user.email} */}
+            {/* </Text> */}
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>

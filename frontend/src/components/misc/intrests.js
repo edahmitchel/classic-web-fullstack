@@ -1,9 +1,11 @@
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+import { Box, Button, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 // import { getSender } from "../../config/chatLogic";
 import { ChatState } from "../../context/chatProvider";
 // import { fetchChats } from "../../utils/apiCalls";
 import ChatLoading from "../chatLoading";
+import IntrestModal from "./intrestModal";
 
 const Intrests = ({ loggedUser }) => {
   //   const [loggedUser, setLoggedUser] = useState();
@@ -47,8 +49,19 @@ const Intrests = ({ loggedUser }) => {
           alignItems={"center"}
           backgroundColor="whatsapp.200"
           w="100%"
+          justifyContent={"space-between"}
+          // alignItems="center"}
         >
           intrests
+          <IntrestModal>
+            <Button
+              display={"flex"}
+              fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+              rightIcon={<AddIcon />}
+            >
+              {/* create intrest */}
+            </Button>
+          </IntrestModal>
         </Box>
         <Box
           display="flex"
@@ -56,7 +69,7 @@ const Intrests = ({ loggedUser }) => {
           w="100%"
           h="100%"
           borderRadius={"lg"}
-          overflow="hidden"
+          overflowY="hidden"
           backgroundColor="#F8F8F8"
           flexDirection="column"
         >
@@ -76,6 +89,14 @@ const Intrests = ({ loggedUser }) => {
                     key={chat._id}
                   >
                     <Text>{chat.chatName}</Text>
+                    {chat.latestMessage && (
+                      <Text fontSize="xs">
+                        <b>{chat.latestMessage.sender.username} : </b>
+                        {chat.latestMessage.content.length > 50
+                          ? chat.latestMessage.content.substring(0, 51) + "..."
+                          : chat.latestMessage.content}
+                      </Text>
+                    )}
                   </Box>
                 ))}
             </Stack>

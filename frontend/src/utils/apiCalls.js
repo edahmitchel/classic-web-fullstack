@@ -144,14 +144,15 @@ export const fetchChats = async (token, setChatList, toast) => {
     console.log(data);
     setChatList(data);
   } catch (error) {
-    toast({
-      title: "Error Occured!",
-      description: "Failed to Load the chats",
-      status: "error",
-      duration: 5000,
-      isClosable: true,
-      position: "bottom-left",
-    });
+    console.log("fetch chat error");
+    // toast({
+    //   title: "Error Occured!",
+    //   description: "Failed to Load the chats",
+    //   status: "error",
+    //   duration: 5000,
+    //   isClosable: true,
+    //   position: "bottom-left",
+    // });
   }
 };
 export const sendMessageCall = async (
@@ -175,7 +176,7 @@ export const sendMessageCall = async (
     const config = {
       header: {
         "Content-type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
     const { data } = await axios.post("/api/message", messageToSend, config);

@@ -1,19 +1,19 @@
 import { Box, Stack, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { getSender } from "../../config/chatLogic";
 import { ChatState } from "../../context/chatProvider";
 // import { fetchChats } from "../../utils/apiCalls";
 import ChatLoading from "../chatLoading";
 
 const MyChats = ({ loggedUser, fetchAgain, setFetchAgain }) => {
-  //   const [loggedUser, setLoggedUser] = useState();
+  const [loggedUserState, setLoggedUserState] = useState();
   const {
-    // user,
+    user,
     // setUser,
     selectedChat,
     setSelectedChat,
     chatList,
-    // setChatList,
+    setChatList,
   } = ChatState();
   //   const token = user.token;
   //   const toast = useToast();
@@ -73,6 +73,14 @@ const MyChats = ({ loggedUser, fetchAgain, setFetchAgain }) => {
                     key={chat._id}
                   >
                     <Text>{getSender(loggedUser, chat.users)}</Text>
+                    {chat.latestMessage && (
+                      <Text fontSize="xs">
+                        {/* <b>{chat.latestMessage.sender.name} : </b> */}
+                        {chat.latestMessage.content.length > 50
+                          ? chat.latestMessage.content.substring(0, 51) + "..."
+                          : chat.latestMessage.content}
+                      </Text>
+                    )}
                     {/* {chat.chatName} */}
                   </Box>
                 ))}

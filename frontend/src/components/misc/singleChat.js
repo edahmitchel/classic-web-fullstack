@@ -8,7 +8,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { Lottie } from "@lottiefiles/lottie-js";
+// import { Lottie } from "@lottiefiles/lottie-js";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { getSender, getSenderFull } from "../../config/chatLogic";
@@ -17,7 +17,8 @@ import ScrollableChat from "../scrollableChat";
 import ProfileComp from "./profileComp";
 import io from "socket.io-client";
 import animationData from "../../animation/52671-typing-animation-in-chat.json";
-const ENDPOINT = "https://classic-web-chat.herokuapp.com/";
+const ENDPOINT = "http://localhost:5000";
+// "https://classic-web-chat.herokuapp.com/";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -65,14 +66,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
         console.log(data);
       } catch (error) {
-        toast({
-          title: "Error Occured!",
-          description: error.message,
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-          position: "bottom",
-        });
+        console.log("found", error);
+        // toast({
+        //   title: "Error Occured!",
+        //   description: error.message,
+        //   status: "error",
+        //   duration: 5000,
+        //   isClosable: true,
+        //   position: "bottom",
+        // });
       }
     }
   };

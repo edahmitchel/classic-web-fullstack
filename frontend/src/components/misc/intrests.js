@@ -1,22 +1,45 @@
 import { AddIcon } from "@chakra-ui/icons";
-import { Box, Button, Stack, Text } from "@chakra-ui/react";
-import React from "react";
+import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 // import { getSender } from "../../config/chatLogic";
 import { ChatState } from "../../context/chatProvider";
 // import { fetchChats } from "../../utils/apiCalls";
 import ChatLoading from "../chatLoading";
 import IntrestModal from "./intrestModal";
+import { fetchAllIntrestsChats, handleAddUser } from "../../utils/apiCalls";
+import JoinIntrestModal from "./joinIntrestModal";
 
-const Intrests = ({ loggedUser }) => {
+const Intrests = ({ loggedUser, setFetchAgain, FetchAgain }) => {
   //   const [loggedUser, setLoggedUser] = useState();
+  const toast = useToast();
   const {
     // user,
     // setUser,
     selectedChat,
     setSelectedChat,
     chatList,
+    setChatList,
+    user,
     // setChatList,
   } = ChatState();
+  const [allIntrest, setAllIntrest] = useState([]);
+  useEffect(() => {
+    fetchAllIntrestsChats(loggedUser?.token, setAllIntrest, toast);
+  }, [loggedUser?.token]);
+  const handleJoinIntrestChat = (chat) => {
+    handleAddUser(
+      chat,
+      user,
+      toast,
+      chatList,
+      setChatList,
+      // setLoading,
+      setSelectedChat,
+      setFetchAgain,
+      FetchAgain
+    );
+  };
   //   const token = user.token;
   //   const toast = useToast();
   //   useEffect(() => {
@@ -40,6 +63,8 @@ const Intrests = ({ loggedUser }) => {
         w={{ base: "100%", md: "31%" }}
         borderRadius="lg"
         borderWidth={"1px"}
+        scrollBehavior="smooth"
+        overflowY={"scroll"}
       >
         <Box
           pb={3}
@@ -63,6 +88,7 @@ const Intrests = ({ loggedUser }) => {
             </Button>
           </IntrestModal>
         </Box>
+
         <Box
           display="flex"
           p={3}
@@ -73,36 +99,114 @@ const Intrests = ({ loggedUser }) => {
           backgroundColor="#F8F8F8"
           flexDirection="column"
         >
-          {chatList ? (
-            <Stack overflowY={"scroll"}>
-              {chatList
-                .filter((chat) => chat.isGroupChat === true)
-                .map((chat) => (
+          <Tabs variant="soft-rounded" colorScheme="green">
+            <TabList>
+              <Tab>my intrests</Tab>
+              <Tab>all intrests</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                {chatList ? (
+                  <Stack overflowY={"scroll"}>
+                    {chatList
+                      .filter((chat) => chat.isGroupChat === true)
+                      .map((chat) => (
+                        <Box
+                          onClick={() => setSelectedChat(chat)}
+                          cursor={"pointer"}
+                          bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
+                          color={selectedChat === chat ? "white" : "black"}
+                          px={3}
+                          py={2}
+                          borderRadius="lg"
+                          key={chat._id}
+                        >
+                          <Text>{chat.chatName}</Text>
+                          {chat.latestMessage && (
+                            <Text fontSize="xs">
+                              <b>{chat.latestMessage.sender.username} : </b>
+                              {chat.latestMessage.content.length > 50
+                                ? chat.latestMessage.content.substring(0, 51) +
+                                  "..."
+                                : chat.latestMessage.content}
+                            </Text>
+                          )}
+                        </Box>
+                      ))}
+                  </Stack>
+                ) : (
+                  <ChatLoading />
+                )}
+                <p>one!</p>
+              </TabPanel>
+              <TabPanel overflowY={"scroll"}>
+                {/* <p>two!</p> */}
+                <Stack overflowY={"scroll"}></Stack>
+                {allIntrest.map((chat) => (
                   <Box
-                    onClick={() => setSelectedChat(chat)}
+                    key={chat._id}
+                    color={
+                      // "white"
+                      // :
+                      "black"
+                    }
+                    // onClick={() => {
+                    //   ;
+                    // }}
                     cursor={"pointer"}
-                    bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                    color={selectedChat === chat ? "white" : "black"}
+                    bg={
+                      // selectedChat === chat ?
+                      // "#38B2AC"  :
+                      "#E8E8E8"
+                    }
+                    // color={selectedChat === chat ? "white" : "black"}
                     px={3}
                     py={2}
+                    marginY={1}
                     borderRadius="lg"
-                    key={chat._id}
                   >
-                    <Text>{chat.chatName}</Text>
-                    {chat.latestMessage && (
-                      <Text fontSize="xs">
-                        <b>{chat.latestMessage.sender.username} : </b>
-                        {chat.latestMessage.content.length > 50
-                          ? chat.latestMessage.content.substring(0, 51) + "..."
-                          : chat.latestMessage.content}
-                      </Text>
-                    )}
+                    <JoinIntrestModal
+                      handleJoin={handleJoinIntrestChat}
+                      chat={chat}
+                    >
+                      <Text>{chat.chatName}</Text>
+                    </JoinIntrestModal>
                   </Box>
                 ))}
-            </Stack>
-          ) : (
-            <ChatLoading />
-          )}
+                {/* {allIntrest ? (
+                  <Stack overflowY={"scroll"}> */}
+                {/* {allIntrest
+                      // .filter((chat) => chat.isGroupChat === true)
+                      .map((chat) => (
+                        <Box
+                          onClick={() => setSelectedChat(chat)}
+                          cursor={"pointer"}
+                          bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
+                          color={selectedChat === chat ? "white" : "black"}
+                          px={3}
+                          py={2}
+                          borderRadius="lg"
+                          key={chat._id}
+                        >
+                          <Text>{chat.chatName}</Text>
+                          {chat.latestMessage && (
+                            <Text fontSize="xs">
+                              <b>{chat.latestMessage.sender.username} : </b>
+                              {chat.latestMessage.content.length > 50
+                                ? chat.latestMessage.content.substring(0, 51) +
+                                  "..."
+                                : chat.latestMessage.content}
+                            </Text>
+                           )} 
+                        </Box>
+                      ))}
+                  </Stack>
+                ) : (
+                  <ChatLoading />
+                )} */}
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </Box>
       </Box>
     </>

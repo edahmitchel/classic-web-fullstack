@@ -86,7 +86,7 @@ const SideDrawer = () => {
         {/* seacrh bar  */}
         <Tooltip label="search users" hasArrow placement="bottom-end">
           <Button variant={"ghost"} onClick={onOpen}>
-            <i class="fa fa-search" aria-hidden="true"></i>
+            <i className="fa fa-search" aria-hidden="true"></i>
             <Text d={{ base: "none", md: "flex" }} px="4">
               {" "}
               search users

@@ -19,9 +19,9 @@ import { ChatState } from "../../context/chatProvider";
 const IntrestModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [intrestName, setIntrestName] = useState("");
-  const [search, setSearch] = useState("");
-  const [searchResult, setSearchResult] = useState("");
-  const [loading, setLoading] = useState();
+  // const [search, setSearch] = useState("");
+  // const [searchResult, setSearchResult] = useState("");
+  // const [loading, setLoading] = useState();
   const toast = useToast();
   const { user, chatList, setChatList } = ChatState();
   const handleSubmit = async () => {

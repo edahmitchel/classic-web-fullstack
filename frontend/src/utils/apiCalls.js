@@ -155,6 +155,30 @@ export const fetchChats = async (token, setChatList, toast) => {
     // });
   }
 };
+export const fetchAllIntrestsChats = async (token, setAllIntrest, toast) => {
+  // console.log(user._id);
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get("/api/chat/intrest", config);
+    console.log(data);
+    setAllIntrest(data);
+  } catch (error) {
+    console.log("fetch ALL INTREST error");
+    // toast({
+    //   title: "Error Occured!",
+    //   description: "Failed to Load the chats",
+    //   status: "error",
+    //   duration: 5000,
+    //   isClosable: true,
+    //   position: "bottom-left",
+    // });
+  }
+};
 export const sendMessageCall = async (
   token,
   toast,
@@ -193,4 +217,71 @@ export const sendMessageCall = async (
       position: "bottom",
     });
   }
+};
+// export const joinSingleIntrestChat
+export const handleAddUser = async (
+  chat,
+  user,
+  toast,
+  chatList,
+  setChatList,
+  // setLoading,
+  setSelectedChat,
+  setFetchAgain,
+  fetchAgain
+) => {
+  if (chat.users.find((u) => u._id === user._id)) {
+    toast({
+      title: "User Already in group!",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom",
+    });
+    console.log("User already in group");
+
+    return;
+  }
+
+  try {
+    console.log("adding user");
+    // setLoading(true);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `/api/chat/intrest/join`,
+      {
+        chatId: chat._id,
+        userId: user._id,
+      },
+      config
+    );
+    console.log("done");
+    // setChatList([data, ...chatList]);
+    // setSelectedChat(data);
+    setFetchAgain(!fetchAgain);
+    toast({
+      title: `succesfully joined ${chat.chatName}.`,
+      // description: .",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom",
+    });
+    // setLoading(false);
+  } catch (error) {
+    toast({
+      title: "Error Occured!",
+      description: error.response.data.message,
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom",
+    });
+    // setLoading(false);
+  }
+  // setGroupChatName("");
 };

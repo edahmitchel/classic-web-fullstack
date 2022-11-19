@@ -19,7 +19,7 @@ const ChatPage = () => {
         fetchChats(user?.token, setChatList, toast);
 
         return () => { };
-    }, [user?.token, setChatList, toast]);
+    }, [user?.token, setChatList, toast, fetchAgain]);
     console.log(user);
 
 
@@ -30,7 +30,10 @@ const ChatPage = () => {
                 w="100%" h="92vh" p="10px">
                 {/* hello */}
                 {/* {user.token} */}
-                {user && <Intrests loggedUser={loggedUser} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
+                {user &&
+
+
+                    <Intrests loggedUser={loggedUser} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
                 {user && <ChatBox loggedUser={loggedUser} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
                 {user && <MyChats loggedUser={loggedUser} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
             </Box>

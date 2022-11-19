@@ -6,14 +6,14 @@ import { ChatState } from "../../context/chatProvider";
 import ChatLoading from "../chatLoading";
 
 const MyChats = ({ loggedUser, fetchAgain, setFetchAgain }) => {
-  const [loggedUserState, setLoggedUserState] = useState();
+  // const [loggedUserState, setLoggedUserState] = useState();
   const {
-    user,
+    // user,
     // setUser,
     selectedChat,
     setSelectedChat,
     chatList,
-    setChatList,
+    // setChatList,
   } = ChatState();
   //   const token = user.token;
   //   const toast = useToast();

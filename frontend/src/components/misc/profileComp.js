@@ -12,7 +12,7 @@ import {
   Button,
   useDisclosure,
   IconButton,
-  Text,
+  // Text,
   Image,
 } from "@chakra-ui/react";
 const ProfileComp = ({ user, children }) => {

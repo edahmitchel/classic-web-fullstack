@@ -140,7 +140,18 @@ const renameIntrestChat = asyncHandler(async (req, res) => {
     // .send({message:error.message})
   }
 });
-
+const fetchAllIntrestChat = asyncHandler(async (req, res) => {
+  try {
+    const chats = await Chat.find({ isGroupChat: true }).populate(
+      "users",
+      "-password"
+    );
+    res.status(200).json(chats);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
 const deleteIntrestChat = asyncHandler(async (req, res) => {});
 const joinIntrestChat = asyncHandler(async (req, res) => {
   const { chatId, userId } = req.body;
@@ -152,6 +163,7 @@ const joinIntrestChat = asyncHandler(async (req, res) => {
     },
     { new: true }
   ).populate("users", "-password");
+  console.log("added");
   // .populate("groupAdmin","-password");
   if (!added) {
     res.status(404);
@@ -189,4 +201,5 @@ module.exports = {
   renameIntrestChat,
   joinIntrestChat,
   removeIntrestChat,
+  fetchAllIntrestChat,
 };

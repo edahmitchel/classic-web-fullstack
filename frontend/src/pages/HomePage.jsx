@@ -17,7 +17,10 @@ const HomePage = () => {
 
     return (
         <Container maxW={"8xl"} display={"flex"} border="1px solid black">
-            <Container maxW="2xl" width={"100%"} centerContent bg={"beige"}>
+            <Container maxW="2xl" width={"100%"} centerContent bg={"beige"} display={{
+                base: "none",
+                md: "flex",
+            }}>
                 < Box display='flex' justifyContent='center' padding={3} bg="GrayText" m="40px 0 15px 0" borderRadius="lg" borderwidth="1px">
 
                     <Text>

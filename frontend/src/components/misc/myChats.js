@@ -1,11 +1,17 @@
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Stack, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { getSender } from "../../config/chatLogic";
 import { ChatState } from "../../context/chatProvider";
 // import { fetchChats } from "../../utils/apiCalls";
 import ChatLoading from "../chatLoading";
 
-const MyChats = ({ loggedUser, fetchAgain, setFetchAgain }) => {
+const MyChats = ({
+  loggedUser,
+  fetchAgain,
+  setFetchAgain,
+  currentTab,
+  setCurrentTab,
+}) => {
   // const [loggedUserState, setLoggedUserState] = useState();
   const {
     // user,
@@ -15,6 +21,7 @@ const MyChats = ({ loggedUser, fetchAgain, setFetchAgain }) => {
     chatList,
     // setChatList,
   } = ChatState();
+  // setCurrentTab("intrests");
   //   const token = user.token;
   //   const toast = useToast();
   //   useEffect(() => {
@@ -27,7 +34,10 @@ const MyChats = ({ loggedUser, fetchAgain, setFetchAgain }) => {
   return (
     <>
       <Box
-        display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+        display={{
+          base: !selectedChat && currentTab === "mychats" ? "flex" : "none",
+          md: "flex",
+        }}
         flexDirection="column"
         alignItems={"center"}
         p={3}
@@ -44,8 +54,21 @@ const MyChats = ({ loggedUser, fetchAgain, setFetchAgain }) => {
           alignItems={"center"}
           backgroundColor="whatsapp.200"
           w="100%"
+          // alignItems={"center"}
+          // w="100%"
+          justifyContent={"space-between"}
         >
-          chats
+          <Text>chats</Text>
+
+          <Button
+            display={{
+              base: "flex",
+              md: "none",
+            }}
+            onClick={() => setCurrentTab("intrests")}
+          >
+            i
+          </Button>
         </Box>
         <Box
           display="flex"

@@ -12,6 +12,7 @@ const ChatPage = () => {
     const [fetchAgain, setFetchAgain] = useState();
     const [loggedUser, setLoggedUser] = useState();
     const { user, setChatList } = ChatState()
+    const [currentTab, setCurrentTab] = useState("");
     // const token = user.token;
     const toast = useToast()
     useEffect(() => {
@@ -33,11 +34,11 @@ const ChatPage = () => {
                 {user &&
 
 
-                    <Intrests loggedUser={loggedUser} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
+                    <Intrests currentTab={currentTab} setCurrentTab={setCurrentTab} loggedUser={loggedUser} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
                 {user && <ChatBox loggedUser={loggedUser} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
-                {user && <MyChats loggedUser={loggedUser} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
+                {user && <MyChats currentTab={currentTab} setCurrentTab={setCurrentTab} loggedUser={loggedUser} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
             </Box>
-            {user?.email}
+            {/* {user?.email} */}
 
         </div>
     )

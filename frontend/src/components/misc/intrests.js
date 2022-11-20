@@ -10,7 +10,13 @@ import IntrestModal from "./intrestModal";
 import { fetchAllIntrestsChats, handleAddUser } from "../../utils/apiCalls";
 import JoinIntrestModal from "./joinIntrestModal";
 
-const Intrests = ({ loggedUser, setFetchAgain, FetchAgain }) => {
+const Intrests = ({
+  loggedUser,
+  setFetchAgain,
+  FetchAgain,
+  currentTab,
+  setCurrentTab,
+}) => {
   //   const [loggedUser, setLoggedUser] = useState();
   const toast = useToast();
   const {
@@ -53,7 +59,7 @@ const Intrests = ({ loggedUser, setFetchAgain, FetchAgain }) => {
     <>
       <Box
         display={{
-          base: selectedChat ? "none" : "flex",
+          base: !selectedChat && currentTab === "intrests" ? "flex" : "none",
           md: "flex",
         }}
         flexDirection="column"
@@ -78,15 +84,31 @@ const Intrests = ({ loggedUser, setFetchAgain, FetchAgain }) => {
           // alignItems="center"}
         >
           intrests
-          <IntrestModal>
+          <Box
+            display={"flex"}
+            alignItems="center"
+            justifyContent={"center"}
+            gap="10px"
+          >
             <Button
-              display={"flex"}
-              fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-              rightIcon={<AddIcon />}
+              display={{
+                base: "flex",
+                md: "none",
+              }}
+              onClick={() => setCurrentTab("mychats")}
             >
-              {/* create intrest */}
+              c
             </Button>
-          </IntrestModal>
+            <IntrestModal>
+              <Button
+                display={"flex"}
+                fontSize={{ base: "10px", md: "10px", lg: "10px" }}
+                rightIcon={<AddIcon />}
+              >
+                {/* create intrest */}
+              </Button>
+            </IntrestModal>
+          </Box>
         </Box>
 
         <Box
@@ -107,7 +129,12 @@ const Intrests = ({ loggedUser, setFetchAgain, FetchAgain }) => {
             <TabPanels>
               <TabPanel>
                 {chatList ? (
-                  <Stack overflowY={"scroll"}>
+                  <Stack
+                    overflowY={"scroll"}
+                    scrollBehavior="smooth"
+                    // overflowY={"scroll"}
+                    height={"100%"}
+                  >
                     {chatList
                       .filter((chat) => chat.isGroupChat === true)
                       .map((chat) => (

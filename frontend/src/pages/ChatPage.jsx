@@ -18,7 +18,7 @@ const ChatPage = () => {
     useEffect(() => {
         setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
         fetchChats(user?.token, setChatList, toast);
-
+        setCurrentTab("mychats")
         return () => { };
     }, [user?.token, setChatList, toast, fetchAgain]);
     console.log(user);

@@ -31,7 +31,9 @@ const Intrests = ({
   } = ChatState();
   const [allIntrest, setAllIntrest] = useState([]);
   useEffect(() => {
-    fetchAllIntrestsChats(loggedUser?.token, setAllIntrest, toast);
+    if (loggedUser) {
+      fetchAllIntrestsChats(loggedUser?.token, setAllIntrest, toast);
+    }
   }, [loggedUser?.token]);
   const handleJoinIntrestChat = (chat) => {
     handleAddUser(

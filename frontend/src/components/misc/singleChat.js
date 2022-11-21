@@ -17,8 +17,8 @@ import ScrollableChat from "../scrollableChat";
 import ProfileComp from "./profileComp";
 import io from "socket.io-client";
 import animationData from "../../animation/52671-typing-animation-in-chat.json";
-const ENDPOINT = "http://localhost:5000";
-// "https://classic-web-chat.herokuapp.com/";
+const ENDPOINT = "https://classic-web-chat.herokuapp.com/";
+//  "http://localhost:5000";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {

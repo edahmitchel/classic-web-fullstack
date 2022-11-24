@@ -16,20 +16,22 @@ import { ChatState } from "../../context/chatProvider";
 import ScrollableChat from "../scrollableChat";
 import ProfileComp from "./profileComp";
 import io from "socket.io-client";
-import animationData from "../../animation/52671-typing-animation-in-chat.json";
-const ENDPOINT = "https://classic-web-chat.herokuapp.com/";
-//  "http://localhost:5000";
+// import animationData from "../../animation/52671-typing-animation-in-chat.json";
+const ENDPOINT = "https://classic-web-chat.herokuapp.com";
+// "http://192.168.0.144:5000";
+
+// "http://localhost:5000";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
+  // const defaultOptions = {
+  //   loop: true,
+  //   autoplay: true,
+  //   animationData: animationData,
+  //   rendererSettings: {
+  //     preserveAspectRatio: "xMidYMid slice",
+  //   },
+  // };
   const toast = useToast();
   const { user, selectedChat, setSelectedChat } = ChatState();
   const [messages, setMessages] = useState([]);
@@ -39,12 +41,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", user);
-    socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
-  }, []);
+    if (user) {
+      socket = io.connect(ENDPOINT);
+      socket.emit("setup", user);
+      socket.on("connected", () => {
+        console.log("socket connected");
+        setSocketConnected(true);
+      });
+      socket.on("typing", () => setIsTyping(true));
+      socket.on("stop typing", () => setIsTyping(false));
+    }
+  }, [user]);
   const sendMessage = async (e) => {
     if (e.key === "Enter") {
       socket.emit("stop typing", selectedChat._id);
@@ -63,6 +70,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
         setMessages([...messages, data]);
         socket.emit("new message", data);
+        console.log("sent new message");
 
         console.log(data);
       } catch (error) {
@@ -111,7 +119,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
     // typing indicatoer logic
-    if (!socketConnected) return;
+    if (!socketConnected) {
+      console.log("socket not connected");
+      return;
+    }
     if (!typing) {
       setTyping(true);
       socket.emit("typing", selectedChat._id);
@@ -133,6 +144,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   }, [selectedChat]);
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
+      console.log("new message recieved here");
       if (
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageRecieved.chat._id
@@ -193,19 +205,19 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 margin={"auto"}
               />
             ) : (
-              <>
-                <div>{/* {messages} */}</div>
-              </>
+              // <>
+              //   <div>{/* {messages} */}</div>
+              // </>
+              <Box
+                display={"flex"}
+                flexDirection="column"
+                overflowY={"scroll"}
+                // scrollbar width change to none in css
+              >
+                <ScrollableChat messages={messages} />
+                {/* MESSAGES */}
+              </Box>
             )}
-            <Box
-              display={"flex"}
-              flexDirection="column"
-              overflowY={"scroll"}
-              // scrollbar width change to none in css
-            >
-              <ScrollableChat messages={messages} />
-              {/* MESSAGES */}
-            </Box>
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
               {istyping ? (
                 <div>
@@ -239,7 +251,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           </Text>
         </Box>
       )}
-      SingleChat
+      {/* SingleChat */}
     </>
   );
 };

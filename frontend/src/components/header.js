@@ -22,11 +22,11 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { ChatState } from "../../context/chatProvider";
+import { ChatState } from "../context/chatProvider";
 import { useNavigate } from "react-router-dom";
-import { acessChat, searchUser } from "../../utils/apiCalls";
-import ChatLoading from "../chatLoading";
-import UserListItem from "../user/userListItem";
+import { acessChat, searchUser } from "../utils/apiCalls";
+import ChatLoading from "./chatLoading";
+import UserListItem from "./user/userListItem";
 
 const SideDrawer = () => {
   const toast = useToast();

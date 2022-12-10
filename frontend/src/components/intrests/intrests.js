@@ -6,9 +6,9 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { ChatState } from "../../context/chatProvider";
 // import { fetchChats } from "../../utils/apiCalls";
 import ChatLoading from "../chatLoading";
-import IntrestModal from "./intrestModal";
+import IntrestModal from "../modals/intrestModal";
 import { fetchAllIntrestsChats, handleAddUser } from "../../utils/apiCalls";
-import JoinIntrestModal from "./joinIntrestModal";
+import JoinIntrestModal from "../modals/joinIntrestModal";
 
 const Intrests = ({
   loggedUser,
@@ -67,7 +67,7 @@ const Intrests = ({
         flexDirection="column"
         alignItems={"center"}
         p={3}
-        backgroundColor="whatsapp.200"
+        backgroundColor="#882433"
         w={{ base: "100%", md: "31%" }}
         borderRadius="lg"
         borderWidth={"1px"}
@@ -80,8 +80,9 @@ const Intrests = ({
           display="flex"
           fontSize={{ base: "28px", md: "30px" }}
           alignItems={"center"}
-          backgroundColor="whatsapp.200"
+          backgroundColor="inherit"
           w="100%"
+          color={"white"}
           justifyContent={"space-between"}
           // alignItems="center"}
         >
@@ -97,12 +98,14 @@ const Intrests = ({
                 base: "flex",
                 md: "none",
               }}
+              color="red"
               onClick={() => setCurrentTab("mychats")}
             >
-              c
+              <Text color={"black"}>c</Text>
             </Button>
             <IntrestModal>
               <Button
+                color={"black"}
                 display={"flex"}
                 fontSize={{ base: "10px", md: "10px", lg: "10px" }}
                 rightIcon={<AddIcon />}
@@ -123,10 +126,20 @@ const Intrests = ({
           backgroundColor="#F8F8F8"
           flexDirection="column"
         >
-          <Tabs variant="soft-rounded" colorScheme="green">
-            <TabList>
-              <Tab>my intrests</Tab>
-              <Tab>all intrests</Tab>
+          <Tabs isFitted variant="enclosed">
+            <TabList bg="#882433">
+              <Tab
+                _selected={{ color: "white", opacity: "0.9" }}
+                color={"white"}
+              >
+                my intrests
+              </Tab>
+              <Tab
+                _selected={{ color: "white", opacity: "0.7" }}
+                color={"white"}
+              >
+                discover
+              </Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -134,7 +147,6 @@ const Intrests = ({
                   <Stack
                     overflowY={"scroll"}
                     scrollBehavior="smooth"
-                    // overflowY={"scroll"}
                     height={"100%"}
                   >
                     {chatList

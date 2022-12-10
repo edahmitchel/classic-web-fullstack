@@ -76,5 +76,27 @@ const allUsers = asyncHandler(async (req, res) => {
 
   res.send(users);
 });
+const updateUser = asyncHandler(
+  (req, res) => {
+    const id = req.user._id;
+    const field = req.params.field;
+    // Get the updated value for the field
+    const updatedValue = req.body.data;
 
-module.exports = { registerUser, authUser, allUsers };
+    // Use Mongoose to find the document and update the field
+    const updatedData = User.findByIdAndUpdate(id, {
+      $set: { field: updatedValue },
+    });
+    if (updatedData) {
+      return res.status(200).send(updatedData);
+    } else {
+      // If there was an error, return an error response
+      return res.json({ message: "Successfully updated field" });
+    }
+
+    // If the document was found and updated, return a success response
+  }
+
+  // This function assumes that you have already defined a Mongoose model for the database collection that you want to edit, and that you have imported this model into your controller file. It also assumes that the id of the document to edit is passed as a URL parameter, and that the updated value for the field is passed in the request body. You may need to adjust these details to match your specific use case.
+);
+module.exports = { registerUser, authUser, allUsers, updateUser };

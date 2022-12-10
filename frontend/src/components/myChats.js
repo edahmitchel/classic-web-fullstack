@@ -1,9 +1,9 @@
-import { Box, Button, Stack, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { getSender } from "../../config/chatLogic";
-import { ChatState } from "../../context/chatProvider";
+import { Box, Button, Divider, Stack, Text } from "@chakra-ui/react";
+// import React, { useState } from "react";
+import { getSender } from "../config/chatLogic";
+import { ChatState } from "../context/chatProvider";
 // import { fetchChats } from "../../utils/apiCalls";
-import ChatLoading from "../chatLoading";
+import ChatLoading from "./chatLoading";
 
 const MyChats = ({
   loggedUser,
@@ -33,6 +33,11 @@ const MyChats = ({
 
   return (
     <>
+      {/* <Box
+        display={"flex"}
+        flexDirection="column"
+        w={{ base: "100%", md: "15%" }}
+      > */}
       <Box
         display={{
           base: !selectedChat && currentTab === "mychats" ? "flex" : "none",
@@ -41,18 +46,36 @@ const MyChats = ({
         flexDirection="column"
         alignItems={"center"}
         p={3}
-        backgroundColor="whatsapp.200"
+        color="white"
+        backgroundColor="white"
         w={{ base: "100%", md: "15%" }}
         borderRadius="lg"
         borderWidth={"1px"}
       >
+        {/* main box */}
+        <Box p={2}>
+          <Box
+            color={"black"}
+            display="flex"
+            justifyContent={"space-between"}
+            alignItems="center"
+            fontSize={"12px"}
+            gap={2}
+          >
+            <Text>all users</Text>
+            <Button>search</Button>
+          </Box>
+          <Divider color={"blue"} />
+        </Box>
+        {/* end of main box */}
         <Box
+          color={"black"}
           pb={3}
           px={3}
           display="flex"
-          fontSize={{ base: "28px", md: "30px" }}
+          fontSize={{ base: "20px", md: "20px" }}
           alignItems={"center"}
-          backgroundColor="whatsapp.200"
+          // backgroundColor="#"
           w="100%"
           // alignItems={"center"}
           // w="100%"
@@ -65,9 +88,10 @@ const MyChats = ({
               base: "flex",
               md: "none",
             }}
+            color="black"
             onClick={() => setCurrentTab("intrests")}
           >
-            i
+            iiii
           </Button>
         </Box>
         <Box
@@ -113,6 +137,7 @@ const MyChats = ({
           )}
         </Box>
       </Box>
+      {/* </Box> */}
     </>
   );
 };

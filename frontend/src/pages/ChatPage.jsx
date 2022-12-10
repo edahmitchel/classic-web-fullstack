@@ -1,10 +1,10 @@
 import { Box, useToast } from "@chakra-ui/react";
 // import { useEffect } from "react"
 import ChatBox from "../components/misc/chatBox";
-import MyChats from "../components/misc/myChats";
-import SideDrawer from "../components/misc/header";
+import MyChats from "../components/myChats";
+import SideDrawer from "../components/header";
 import { ChatState } from "../context/chatProvider"
-import Intrests from "../components/misc/intrests";
+import Intrests from "../components/intrests/intrests";
 import { fetchChats } from "../utils/apiCalls";
 import { useEffect, useState } from "react";
 
@@ -18,9 +18,9 @@ const ChatPage = () => {
     useEffect(() => {
         setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
         if (user) { fetchChats(user?.token, setChatList, toast) };
-        setCurrentTab("mychats")
+        setCurrentTab("intrests")
         return () => { };
-    }, [user?.token, setChatList, toast, fetchAgain]);
+    }, [user, setChatList, toast, fetchAgain]);
     console.log(user);
 
 

@@ -135,7 +135,7 @@ const Signup = () => {
         </InputGroup>
       </FormControl>
       <FormControl id="confirmPassword" isRequired>
-        <FormLabel>password</FormLabel>
+        <FormLabel>confirm password</FormLabel>
         <InputGroup>
           <Input
             type={show ? "text" : "password"}

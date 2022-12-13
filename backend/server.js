@@ -57,6 +57,8 @@ const io = require("socket.io")(server, {
       "https://classic-web-chat.herokuapp.com",
       "http://classic-web-chat.herokuapp.com",
       "classic-web-chat.herokuapp.com",
+      "https://classic-web.netlify.app",
+      "http://classic-web.netlify.app/",
     ],
   },
 });

@@ -1,47 +1,78 @@
-import { useState } from "react";
-
-const Carousel = ({ images }) => {
+import { Box, Container, Image, Stack, Text } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import image1 from "../images/slider-one.png";
+import image2 from "../images/slider-two.png";
+export const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [translateValue, setTranslateValue] = useState(0);
+  const items = [
+    {
+      image: image1,
+      text1: "Create or Discover",
+      text2: "create your interests or discover new ",
+      text3: "ones to find others who share",
+      text4: "your curiosities",
+    },
+    {
+      image: image2,
+      text1: "Connect with Anyone",
+      text2: "connect and chat with anyone, no prior contact ",
+      text3: "ones to find others who share",
+      text4: "your curiosities",
+    },
+    {
+      image: image1,
+      text1: "Create or Discover",
+      text2: "create your interests or discover new ",
+      text3: "e.g. Phone Number ",
+      text4: "e-mail, etc. needed",
+    },
+
+    setInterval(() => {
+      if (currentIndex === 2) {
+        setCurrentIndex(0);
+      } else {
+        setCurrentIndex(currentIndex + 1);
+      }
+    }, 5000),
+  ];
 
   const handlePrevClick = () => {
-    if (currentIndex === 0) {
-      setCurrentIndex(images.length - 1);
-      setTranslateValue(-100 * (images.length - 1));
-    } else {
-      setCurrentIndex(currentIndex - 1);
-      setTranslateValue(translateValue + 100);
-    }
+    setCurrentIndex((currentIndex - 1 + items.length) % items.length);
   };
 
   const handleNextClick = () => {
-    if (currentIndex === images.length - 1) {
-      setCurrentIndex(0);
-      setTranslateValue(0);
-    } else {
-      setCurrentIndex(currentIndex + 1);
-      setTranslateValue(translateValue - 100);
-    }
+    setCurrentIndex((currentIndex + 1) % items.length);
   };
-
+  const item = items[currentIndex];
   return (
-    <div className="carousel-container">
-      <button onClick={handlePrevClick} className="carousel-btn prev">
-        Prev
-      </button>
-      <div
-        className="carousel-slider"
-        // style={{ transform: "translateX(${translateValue}%)" }}
-      >
-        {images.map((image, index) => (
-          <img key={index} src={image} alt="carousel" />
-        ))}
-      </div>
-      <button onClick={handleNextClick} className="carousel-btn next">
-        Next
-      </button>
-    </div>
+    <>
+      <Stack>
+        <Box>
+          <Container width="300px" height={"200px"} padding={3}>
+            <Image
+              src={item?.image}
+              alt="First slide"
+              width={"100%"}
+              height="100%"
+            />
+          </Container>
+          <Box textAlign={"center"} marginTop={2}>
+            <Text padding={1} fontWeight="bold">
+              {item?.text1}
+            </Text>
+            <Text>
+              {item?.text2} <br />
+              {item?.text3} <br />
+              {item?.text4}
+            </Text>
+          </Box>
+        </Box>
+      </Stack>
+      <Box>
+        <button onClick={() => setCurrentIndex(0)}>first</button>
+        <button onClick={() => setCurrentIndex(1)}>second</button>
+        <button onClick={() => setCurrentIndex(2)}>third</button>
+      </Box>
+    </>
   );
 };
-
-export default Carousel;

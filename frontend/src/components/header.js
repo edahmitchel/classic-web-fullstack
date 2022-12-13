@@ -37,7 +37,14 @@ const SideDrawer = () => {
   const [loading, setLoading] = useState();
   const [loadingChat, setloadingChat] = useState(false);
 
-  const { user, setSelectedChat, chatList, setChatList } = ChatState();
+  const {
+    user,
+    setSelectedChat,
+    chatList,
+    setChatList,
+    openProfile,
+    setOpenProfile,
+  } = ChatState();
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
     navigate("/");
@@ -105,7 +112,7 @@ const SideDrawer = () => {
               />
             </MenuButton>
             <MenuList>
-              <MenuItem>profile</MenuItem>
+              <MenuItem onClick={setOpenProfile(true)}>profile</MenuItem>
               <MenuDivider />
               <MenuItem onClick={logoutHandler}>logout</MenuItem>
             </MenuList>

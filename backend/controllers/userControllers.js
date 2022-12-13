@@ -81,7 +81,7 @@ const updateUser = asyncHandler(
     const id = req.user._id;
     const field = req.params.field;
     // Get the updated value for the field
-    const updatedValue = req.body.data;
+    const updatedValue = req.body.user;
 
     // Use Mongoose to find the document and update the field
     const updatedData = User.findByIdAndUpdate(id, {

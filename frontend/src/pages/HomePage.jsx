@@ -5,6 +5,8 @@ import Login from '../components/auth/Login'
 import Signup from '../components/auth/Signup'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { Carousel } from '../components/carosel'
+import { MyCarousel } from '../components/user/swipeablecarousel'
 const HomePage = () => {
     const navigate = useNavigate()
     useEffect(() => {
@@ -16,30 +18,33 @@ const HomePage = () => {
     })
 
     return (
-        <Container maxW={"8xl"} display={"flex"} border="1px solid black">
-            <Container maxW="2xl" width={"100%"} centerContent bg={"beige"} display={{
+        <Container maxW={"8xl"} display={"flex"} >
+            <Container maxW="2xl" width={"100%"} alignItems="center" justifyContent={"center"} centerContent display={{
                 base: "none",
                 md: "flex",
             }}>
-                < Box display='flex' justifyContent='center' padding={3} bg="GrayText" m="40px 0 15px 0" borderRadius="lg" borderwidth="1px">
 
-                    <Text>
 
-                        carousel
-                    </Text>
-                </Box>
+                {/*  */}
+
+
+                <Carousel />
+                {/* <MyCarousel /> */}
+
             </Container>
-            <Container border="1px solid black" maxW="2xl" w='100%' centerContent>
-                <Box w="100%" display='flex' justifyContent='center' padding={3} bg="whatsapp.200" m="40px 0 15px 0" borderRadius="lg" borderwidth="1px">
+            <Container maxW="2xl" w='100%' centerContent>
+                <Box w="100%" display='flex' justifyContent='center' padding={3} m="40px 0 15px 0" borderRadius="lg" borderwidth="1px">
 
 
-                    <Text fontSize={"xl"}>classic-web homepage </Text>
+                    <Text fontSize={"xl"}>Welcome to classic web!</Text>
                 </Box>
                 <Box bg="white" w="100%" p={4} borderRadius='lg' borderWidth={'1px'} color='black'>
-                    <Tabs variant='soft-rounded'>
+                    <Tabs variant='soft-rounded' colorScheme={"#882433"}>
                         <TabList mb='1em'>
-                            <Tab w='50%'>login</Tab>
-                            <Tab w="50%">signup</Tab>
+                            <Tab margin={1} w='50%' _selected={{ color: "white", opacity: "0.9", backgroundColor: "#882433" }}
+                                color={"#882433"} border="1px solid #882433" >login</Tab>
+                            <Tab w="50%" margin={1} _selected={{ color: "white", opacity: "0.9", backgroundColor: "#882433" }}
+                                color={"#882433"} border="1px solid #882433">signup</Tab>
                         </TabList>
                         <TabPanels>
                             <TabPanel>

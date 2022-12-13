@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import {
-  VStack,
+  Stack,
   FormControl,
   FormLabel,
   Input,
@@ -47,7 +47,7 @@ const Login = () => {
 
   return (
     <>
-      <VStack spacing="5px" color={"b"}>
+      <Stack>
         <FormControl id="loginusername" isRequired>
           <FormLabel>username</FormLabel>
           <Input
@@ -79,15 +79,15 @@ const Login = () => {
         </FormControl>
 
         <Button
-          color={"red"}
+          color={"#882433"}
           width="100%"
-          mt={15}
+          mt={"30px"}
           onClick={handleSubmit}
           isLoading={loading}
         >
           login
         </Button>
-      </VStack>
+      </Stack>
     </>
   );
 };

@@ -6,7 +6,11 @@ export const registerUser = async (user, toast, setLoading, navigate) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.post("/api/users", user, config);
+    const { data } = await axios.post(
+      "https://classicweb.onrender.com/api/users",
+      user,
+      config
+    );
     toast({
       title: "thank you for joining us.",
       // description: .",
@@ -31,6 +35,43 @@ export const registerUser = async (user, toast, setLoading, navigate) => {
   }
 };
 
+// update user
+export const updateUserDetails = async (user, toast, setLoading) => {
+  try {
+    const config = {
+      header: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.post(
+      `https://classicweb.onrender.com/api/users?field=username`,
+      user.username,
+      config
+    );
+    toast({
+      title: "succesfully updated.",
+      // description: .",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom",
+    });
+    // localStorage.setItem("userInfo", JSON.stringify(data));
+    // setLoading(false);
+    // navigate("/chats");
+  } catch (error) {
+    toast({
+      title: "error.",
+      description: error.response.data.message,
+      status: "warning",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom",
+    });
+    setLoading(false);
+  }
+};
+
 // login user
 
 export const loginUser = async (user, toast, setLoading, navigate) => {
@@ -40,7 +81,11 @@ export const loginUser = async (user, toast, setLoading, navigate) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.post("/api/users/login", user, config);
+    const { data } = await axios.post(
+      "https://classicweb.onrender.com/api/users/login",
+      user,
+      config
+    );
     toast({
       title: "thank you for joining us.",
       // description: .",
@@ -76,7 +121,10 @@ export const searchUser = async (
     const config = {
       headers: { Authorization: `Bearer ${user.token}` },
     };
-    const { data } = await axios.get(`/api/users?search=${search}`, config);
+    const { data } = await axios.get(
+      `https://classicweb.onrender.com/api/users?search=${search}`,
+      config
+    );
 
     setLoading(false);
     setSearchResults(data);
@@ -110,7 +158,11 @@ export const acessChat = async (
       "Content-type": "application/json",
       headers: { Authorization: `Bearer ${token}` },
     };
-    const { data } = await axios.post(`/api/chat`, { userId }, config);
+    const { data } = await axios.post(
+      `https://classicweb.onrender.com/api/chat`,
+      { userId },
+      config
+    );
     // setting chat data if it already exists
     if (!chatList.find((c) => c._id === data._id)) {
       setChatList([data, ...chatList]);
@@ -140,7 +192,10 @@ export const fetchChats = async (token, setChatList, toast) => {
       },
     };
 
-    const { data } = await axios.get("/api/chat", config);
+    const { data } = await axios.get(
+      "https://classicweb.onrender.com/api/chat",
+      config
+    );
     console.log(data);
     setChatList(data);
   } catch (error) {
@@ -164,7 +219,10 @@ export const fetchAllIntrestsChats = async (token, setAllIntrest, toast) => {
       },
     };
 
-    const { data } = await axios.get("/api/chat/intrest", config);
+    const { data } = await axios.get(
+      "https://classicweb.onrender.com/api/chat/intrest",
+      config
+    );
     console.log(data);
     setAllIntrest(data);
   } catch (error) {
@@ -203,7 +261,11 @@ export const sendMessageCall = async (
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await axios.post("/api/message", messageToSend, config);
+    const { data } = await axios.post(
+      "https://classicweb.onrender.com/api/message",
+      messageToSend,
+      config
+    );
     console.log(`this is data${data}`);
     setNewMessage("");
     // setMessages({ ...messages, data });
@@ -252,7 +314,7 @@ export const handleAddUser = async (
       },
     };
     const { data } = await axios.put(
-      `/api/chat/intrest/join`,
+      `https://classicweb.onrender.com/api/chat/intrest/join`,
       {
         chatId: chat._id,
         userId: user._id,

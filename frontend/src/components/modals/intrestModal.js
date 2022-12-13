@@ -43,7 +43,7 @@ const IntrestModal = ({ children }) => {
         },
       };
       const { data } = await axios.post(
-        `/api/chat/intrest`,
+        `https://classicweb.onrender.com/api/chat/intrest`,
         {
           name: intrestName,
           // users: JSON.stringify(selectedUsers.map((u) => u._id)),

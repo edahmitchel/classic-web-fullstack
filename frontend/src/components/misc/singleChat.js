@@ -17,7 +17,7 @@ import ScrollableChat from "../scrollableChat";
 import ProfileComp from "./profileComp";
 import io from "socket.io-client";
 // import animationData from "../../animation/52671-typing-animation-in-chat.json";
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://classicweb.onrender.com";
 // "https://classic-web-chat.herokuapp.com";
 // "http://192.168.0.144:5000";
 
@@ -64,7 +64,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         };
         setNewMessage("");
         const { data } = await axios.post(
-          "/api/message",
+          "https://classicweb.onrender.com/api/message",
           { content: newMessage, chatId: selectedChat._id },
           config
         );
@@ -97,7 +97,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       };
       setLoading(true);
       const { data } = await axios.get(
-        `/api/message/${selectedChat._id}`,
+        `https://classicweb.onrender.com/api/message/${selectedChat._id}`,
         config
       );
       console.log(messages);

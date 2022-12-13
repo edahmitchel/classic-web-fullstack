@@ -1,8 +1,8 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "proxy": "http://localhost:5000",
   "private": true,
+  "proxy":"https://classicweb.onrender.com",
   "dependencies": {
     "@chakra-ui/icons": "^2.0.11",
     "@chakra-ui/react": "^2.3.6",
@@ -16,8 +16,10 @@
     "framer-motion": "^7.6.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
+    "react-slick": "^0.29.0",
     "socket.io-client": "^4.5.3",
     "web-vitals": "^2.1.4"
   },

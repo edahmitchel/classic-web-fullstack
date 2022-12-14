@@ -7,12 +7,31 @@ const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const app = express();
+const cors = require("cors");
 const path = require("path");
 const http = require("http");
 const server = http.createServer(app);
 dotenv.config();
 connection();
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://192.168.0.144:3000",
+      "https://192.168.0.144:3000",
+      "https://classic-web-chat.herokuapp.com",
+      "http://classic-web-chat.herokuapp.com",
+      "classic-web-chat.herokuapp.com",
+      "https://classic-web.netlify.app",
+      "http://classic-web.netlify.app",
+      "https://www.classic-web.netlify.app",
+      "http://www.classic-web.netlify.app",
+    ],
+  })
+);
+
 // app.get("/", (req, res) => {
 //   res.send("hello world");
 // });
@@ -59,6 +78,8 @@ const io = require("socket.io")(server, {
       "classic-web-chat.herokuapp.com",
       "https://classic-web.netlify.app",
       "http://classic-web.netlify.app",
+      "https://www.classic-web.netlify.app",
+      "http://www.classic-web.netlify.app",
     ],
   },
 });

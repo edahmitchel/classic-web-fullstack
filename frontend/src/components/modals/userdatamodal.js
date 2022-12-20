@@ -13,56 +13,80 @@ import {
   Input,
   // Lorem,
 } from "@chakra-ui/react";
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 
-const Userdatamodal = ({ children, field }) => {
+export const Userdatamodal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  return (
-    <>
-      <span onClick={onOpen}>{children}</span>
+  function UpdateUserForm(props) {
+    // Create state variables for the form fields
+    const [userUpdate, setUserUpdate] = useState({});
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [pic, setPic] = useState("");
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader
-            fontSize={"30px"}
-            fontFamily="sans-serif"
-            display={"flex"}
-            justifyContent="center"
-          >
-            edit {field}
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody
-            display={"flex"}
-            flexDirection="column"
-            alignItems={"center"}
-          >
-            <FormControl>
-              <Input
-                placeholder={`edit ${field}`}
-                mb={3}
-                //   onChange={(e) => setIntrestName(e.target.value)}
-              />
-            </FormControl>
-          </ModalBody>
+    // Function to handle form submission
+    const handleSubmit = async (event) => {
+      event.preventDefault();
 
-          <ModalFooter>
-            <Button
-              //  onClick={handleSubmit}
-              colorScheme="blue"
+      // Send a PATCH request to the server to update the user details
+      try {
+        const response = await axios.patch(
+          `https://classicweb.onrender.com/api/users`,
+          {
+            name,
+            email,
+            pic,
+          }
+        );
+        console.log(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    return (
+      <>
+        <span onClick={onOpen}>{children}</span>
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader
+              fontSize={"30px"}
+              fontFamily="sans-serif"
+              display={"flex"}
+              justifyContent="center"
             >
-              save changes
-            </Button>
-            <Button variant={"ghost"} onClick={onClose}>
-              Close
-            </Button>
-            {/* <Button variant="ghost">Secondary Action</Button> */}
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
-  );
-};
+              edit
+            </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody
+              display={"flex"}
+              flexDirection="column"
+              alignItems={"center"}
+            >
+              <FormControl>
+                <Input
+                  // placeholder={}
+                  mb={3}
+                  //   onChange={(e) => setIntrestName(e.target.value)}
+                />
+              </FormControl>
+            </ModalBody>
 
-export default Userdatamodal;
+            <ModalFooter>
+              <Button onClick={handleSubmit} colorScheme="blue">
+                save changes
+              </Button>
+              <Button variant={"ghost"} onClick={onClose}>
+                Close
+              </Button>
+              {/* <Button variant="ghost">Secondary Action</Button> */}
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </>
+    );
+  }
+};

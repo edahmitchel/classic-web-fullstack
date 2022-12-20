@@ -77,26 +77,100 @@ const allUsers = asyncHandler(async (req, res) => {
   res.send(users);
 });
 const updateUser = asyncHandler(
-  (req, res) => {
-    const id = req.user._id;
-    const field = req.params.field;
-    // Get the updated value for the field
-    const updatedValue = req.body.user;
+  // Update user details
+  async (req, res) => {
+    const update = req.body;
+    try {
+      const user = await User.findByIdAndUpdate(req.user._id, { ...update });
+      const newuser = await User.findById(req.user._id);
+      // if (req.body.username) {
+      //   user.title = req.body.username;
+      // }
 
-    // Use Mongoose to find the document and update the field
-    const updatedData = User.findByIdAndUpdate(id, {
-      $set: { field: updatedValue },
-    });
-    if (updatedData) {
-      return res.status(200).send(updatedData);
-    } else {
-      // If there was an error, return an error response
-      return res.json({ message: "Successfully updated field" });
+      // if (req.body.pic) {
+      //   user.pic = req.body.pic;
+      // }
+
+      // await user.save();
+      res.send(newuser);
+    } catch (err) {
+      res.status(404);
+      res.send({ error: "user doesn't exist!", data: err });
     }
+    // third logic
+    // try {
+    //   const { id } = req.user._id;
+    //   const updates = req.body;
 
-    // If the document was found and updated, return a success response
+    //   // Create a new object to store the updates
+    //   const updatedRecord = { ...updates };
+
+    //   // Loop through the updates and add each non-empty field to the updatedRecord object
+    //   // Object.keys(updates).forEach((key) => {
+    //   //   if (updates[key]) {
+    //   //     updatedRecord[key] = updates[key];
+    //   //   }
+    //   // });
+
+    //   console.log(updates);
+    //   // Find the record in the database and update it with the non-empty fields from the updatedRecord object
+    //   const result = await User.findByIdAndUpdate(id, updates, {
+    //     new: true,
+    //   });
+
+    //   res.json(result);
+    // } catch (error) {
+    //   res.status(500).send(error);
+    // }
+    // seconde logic
+    // try {
+    //   // Find the user by their ID
+    //   const user = await User.findById(req.user._id);
+
+    //   // Update the user details with the new values from the request body
+    //   if (req.body.name) user.name = req.body.name;
+    //   if (req.body.email) user.email = req.body.email;
+    //   if (req.body.pic) user.pic = req.body.pic;
+
+    //   // Save the updated user to the database
+    //   const updatedUser = await user.save();
+    //   console.log(user);
+    //   // Send a response with the updated user details
+    //   res.json({
+    //     success: true,
+    //     data: updatedUser,
+    //   });
+    // } catch (err) {
+    //   // If there was an error, send a response with a status code of 500 (Internal Server Error)
+    //   res.status(500).json({
+    //     success: false,
+    //     message: err.message,
+    //   });
+    // }
   }
-
-  // This function assumes that you have already defined a Mongoose model for the database collection that you want to edit, and that you have imported this model into your controller file. It also assumes that the id of the document to edit is passed as a URL parameter, and that the updated value for the field is passed in the request body. You may need to adjust these details to match your specific use case.
 );
+
+// first logic
+//   (req, res) => {
+//     const id = req.user._id;
+//     // const field = req.params.field;
+//     // Get the updated value for the field
+//     const updatedValue = req.body.user;
+
+//     // Use Mongoose to find the document and update the field
+//     const updatedData = User.findByIdAndUpdate(id, {
+//       $set: { field: username },
+//     });
+//     if (updatedData) {
+//       return res.status(200).send(updatedData);
+//     } else {
+//       // If there was an error, return an error response
+//       return res.json({ message: "Successfully updated field" });
+//     }
+
+//     // If the document was found and updated, return a success response
+//   }
+
+//   // This function assumes that you have already defined a Mongoose model for the database collection that you want to edit, and that you have imported this model into your controller file. It also assumes that the id of the document to edit is passed as a URL parameter, and that the updated value for the field is passed in the request body. You may need to adjust these details to match your specific use case.
+// );
 module.exports = { registerUser, authUser, allUsers, updateUser };

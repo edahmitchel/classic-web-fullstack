@@ -1,9 +1,20 @@
 import { Avatar, Img } from "@chakra-ui/react";
 import React from "react";
+import { ChatState } from "../../context/chatProvider";
 import ChatHeader from "../../images/chatHeader.jpg";
 import "./danielUser.css";
+import { UserDetailsModal } from "./UserDetailsModal";
 
 const Danieluser = () => {
+  const {
+    user,
+    setSelectedChat,
+    chatList,
+    setChatList,
+    openProfile,
+    setOpenProfile,
+  } = ChatState();
+  console.log("this is open profile,", openProfile);
   return (
     <section className="container">
       <header className="header">
@@ -23,31 +34,42 @@ const Danieluser = () => {
         <Avatar
           border="5px solid white"
           name="profileImg"
-          src={ChatHeader}
+          src={user.pic ? user.pic : ChatHeader}
           w="100px"
           height={"100px"}
         />
 
-        <h1>Maria Snow</h1>
+        {user.username ? <h1>{user.username}</h1> : <h1>Maria Snow</h1>}
 
         <div className="profile__info">
-          <small>@Maria__snow</small>
+          {user.username ? (
+            <small>@{user.username}</small>
+          ) : (
+            <small>@Maria__snow</small>
+          )}
 
-          <button className="user__btn" type="submit">
-            Edit profile
-          </button>
+          <UserDetailsModal>
+            <button className="user__btn" type="submit">
+              Edit profile
+            </button>
+          </UserDetailsModal>
         </div>
       </section>
 
       <section className="bio">
-        <p>Frontend Web developer.. Manutd👹🚧.. Practice makes progress🧩</p>
+        {user.bio ? (
+          <p>{user.bio}</p>
+        ) : (
+          <p>Frontend Web developer.. Manutd👹🚧.. Practice makes progress🧩</p>
+        )}
 
         <label htmlFor="email">Email</label>
-        <p className="email"> maria@gmail.com</p>
+        <p className="email">{user.email ? user.email : "maria@gmail.com"}</p>
 
         <label htmlFor="location">Location</label>
         <p className="location">SanFrancisco, CA</p>
       </section>
+      <button onClick={() => setOpenProfile(false)}>close profile</button>
     </section>
   );
 };

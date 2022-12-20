@@ -11,6 +11,7 @@ const MyChats = ({
   setFetchAgain,
   currentTab,
   setCurrentTab,
+  openProfile,
 }) => {
   // const [loggedUserState, setLoggedUserState] = useState();
   const {
@@ -40,7 +41,10 @@ const MyChats = ({
       > */}
       <Box
         display={{
-          base: !selectedChat && currentTab === "mychats" ? "flex" : "none",
+          base:
+            !selectedChat && !openProfile && currentTab === "mychats"
+              ? "flex"
+              : "none",
           md: "flex",
         }}
         flexDirection="column"

@@ -42,7 +42,7 @@ const SideDrawer = () => {
     setSelectedChat,
     chatList,
     setChatList,
-    openProfile,
+    // openProfile,
     setOpenProfile,
   } = ChatState();
   const logoutHandler = () => {
@@ -112,7 +112,7 @@ const SideDrawer = () => {
               />
             </MenuButton>
             <MenuList>
-              <MenuItem onClick={setOpenProfile(true)}>profile</MenuItem>
+              <MenuItem onClick={() => setOpenProfile(true)}>profile</MenuItem>
               <MenuDivider />
               <MenuItem onClick={logoutHandler}>logout</MenuItem>
             </MenuList>

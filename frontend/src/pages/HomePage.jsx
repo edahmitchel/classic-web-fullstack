@@ -7,7 +7,10 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { Carousel } from '../components/carosel'
 import { MyCarousel } from '../components/user/swipeablecarousel'
+import ForgetPassword from '../components/auth/forgetPassword'
+import { useState } from 'react'
 const HomePage = () => {
+    const [currentTab, setCurrentTab] = useState("auth")
     const navigate = useNavigate()
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -39,22 +42,27 @@ const HomePage = () => {
                     <Text fontSize={"xl"}>Welcome to classic web!</Text>
                 </Box>
                 <Box bg="white" w="100%" p={4} borderRadius='lg' borderWidth={'1px'} color='black'>
-                    <Tabs variant='soft-rounded' colorScheme={"#882433"}>
-                        <TabList mb='1em'>
-                            <Tab margin={1} w='50%' _selected={{ color: "white", opacity: "0.9", backgroundColor: "#882433" }}
-                                color={"#882433"} border="1px solid #882433" >login</Tab>
-                            <Tab w="50%" margin={1} _selected={{ color: "white", opacity: "0.9", backgroundColor: "#882433" }}
-                                color={"#882433"} border="1px solid #882433">signup</Tab>
-                        </TabList>
-                        <TabPanels>
-                            <TabPanel>
-                                <Login />
-                            </TabPanel>
-                            <TabPanel>
-                                <Signup />
-                            </TabPanel>
-                        </TabPanels>
-                    </Tabs></Box>
+                    {currentTab === "auth" ?
+
+                        (<Tabs variant='soft-rounded' colorScheme={"#882433"}>
+                            <TabList mb='1em'>
+                                <Tab margin={1} w='50%' _selected={{ color: "white", opacity: "0.9", backgroundColor: "#882433" }}
+                                    color={"#882433"} border="1px solid #882433" >login</Tab>
+                                <Tab w="50%" margin={1} _selected={{ color: "white", opacity: "0.9", backgroundColor: "#882433" }}
+                                    color={"#882433"} border="1px solid #882433">signup</Tab>
+                            </TabList>
+                            <TabPanels>
+                                <TabPanel>
+                                    <Login setCurrentTab={setCurrentTab} />
+                                </TabPanel>
+                                <TabPanel>
+                                    <Signup />
+                                </TabPanel>
+                            </TabPanels>
+                        </Tabs>) :
+                        <ForgetPassword setCurrentTab={setCurrentTab} />
+                    }
+                </Box>
             </Container>
 
 

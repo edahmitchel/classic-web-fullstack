@@ -6,7 +6,7 @@ const ChatProvider = ({ children }) => {
   const location = useLocation();
   const [user, setUser] = useState();
   const [selectedChat, setSelectedChat] = useState();
-  const [openProfile, setOpenProfile] = useState(false);
+  const [openProfile, setOpenProfile] = useState();
   const [chatList, setChatList] = useState([]);
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));

@@ -43,9 +43,9 @@ export const updateUserDetails = async (user, toast, setLoading) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.post(
-      `https://classicweb.onrender.com/api/users?field=username`,
-      user.username,
+    const { data } = await axios.patch(
+      `https://classicweb.onrender.com/api/users`,
+      user,
       config
     );
     toast({
@@ -56,8 +56,8 @@ export const updateUserDetails = async (user, toast, setLoading) => {
       isClosable: true,
       position: "bottom",
     });
-    // localStorage.setItem("userInfo", JSON.stringify(data));
-    // setLoading(false);
+    localStorage.setItem("userInfo", JSON.stringify(data));
+    setLoading(false);
     // navigate("/chats");
   } catch (error) {
     toast({

@@ -27,6 +27,8 @@ const Intrests = ({
     chatList,
     setChatList,
     user,
+    openProfile,
+    setOpenProfile,
     // setChatList,
   } = ChatState();
   const [allIntrest, setAllIntrest] = useState([]);
@@ -61,7 +63,10 @@ const Intrests = ({
     <>
       <Box
         display={{
-          base: !selectedChat && currentTab === "intrests" ? "flex" : "none",
+          base:
+            !selectedChat && !openProfile && currentTab === "intrests"
+              ? "flex"
+              : "none",
           md: "flex",
         }}
         flexDirection="column"
@@ -165,7 +170,7 @@ const Intrests = ({
                           <Text>{chat.chatName}</Text>
                           {chat.latestMessage && (
                             <Text fontSize="xs">
-                              <b>{chat.latestMessage.sender.username} : </b>
+                              <b>user-{chat.latestMessage.sender._id} : </b>
                               {chat.latestMessage.content.length > 50
                                 ? chat.latestMessage.content.substring(0, 51) +
                                   "..."

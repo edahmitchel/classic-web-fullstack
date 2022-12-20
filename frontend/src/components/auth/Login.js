@@ -9,13 +9,16 @@ import {
   Button,
   InputRightElement,
   useToast,
+  Box,
+  Text,
+  color,
 } from "@chakra-ui/react";
 import {
   useNavigate,
   //  useLocation
 } from "react-router-dom";
 import { loginUser } from "../../utils/apiCalls";
-const Login = () => {
+const Login = ({ setCurrentTab }) => {
   const [show, setShow] = useState(false);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
@@ -87,6 +90,15 @@ const Login = () => {
         >
           login
         </Button>
+        <Box textAlign={"center"}>
+          <Text
+            color={"#882433"}
+            _hover={{ color: "black", cursor: "pointer" }}
+            onClick={() => setCurrentTab("forget")}
+          >
+            forgot password?
+          </Text>
+        </Box>
       </Stack>
     </>
   );

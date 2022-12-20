@@ -14,7 +14,6 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Select,
   useToast,
   Text,
 } from "@chakra-ui/react";
@@ -23,14 +22,7 @@ import { ChatState } from "../../context/chatProvider";
 import { updateUserDetails } from "../../utils/apiCalls";
 
 export function UserDetailsModal({ children }) {
-  const {
-    user,
-    setSelectedChat,
-    chatList,
-    setChatList,
-    openProfile,
-    setOpenProfile,
-  } = ChatState();
+  const { user, setUser } = ChatState();
   const toast = useToast();
   const [show, setShow] = useState(false);
   const [newUser, setNewUser] = useState({});
@@ -85,26 +77,15 @@ export function UserDetailsModal({ children }) {
     console.log(newUser);
     setLoading(true);
 
-    // if (
-    //   !newUser.username ||
-    //   !newUser.email ||
-    //   !newUser.password ||
-    //   !newUser.confirmPassword
-    // ) {
-    //   toast({
-    //     title: "please fill in all the details.",
-    //     // description: .",
-    //     status: "warning",
-    //     duration: 5000,
-    //     isClosable: true,
-    //     position: "bottom",
-    //   });
-    //   setLoading(false);
-    //   return;
-    // }
-    if (newUser.password !== newUser.confirmPassword) {
+    if (
+      !newUser
+      // !newUser.username ||
+      // !newUser.email ||
+      // !newUser.password ||
+      // !newUser.confirmPassword
+    ) {
       toast({
-        title: "please check confirm password.",
+        title: "please fill in your neccesary details.",
         // description: .",
         status: "warning",
         duration: 5000,
@@ -114,7 +95,25 @@ export function UserDetailsModal({ children }) {
       setLoading(false);
       return;
     }
-    updateUserDetails(newUser, toast, setLoading);
+
+    // if (newUser.password !== newUser.confirmPassword) {
+    //   toast({
+    //     title: "please check confirm password.",
+    //     // description: .",
+    //     status: "warning",
+    //     duration: 5000,
+    //     isClosable: true,
+    //     position: "bottom",
+    //   });
+    //   setLoading(false);
+    //   return;
+    // }
+    const filteredObject = Object.entries(newUser)
+      .filter(([key, value]) => value)
+      .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
+
+    console.log("filter", filteredObject);
+    updateUserDetails(filteredObject, toast, setLoading, user.token, setUser);
   };
   return (
     <>
@@ -147,7 +146,7 @@ export function UserDetailsModal({ children }) {
                   }
                 />
               </FormControl>
-              <FormControl id="password" isRequired>
+              {/* <FormControl id="password" isRequired>
                 <FormLabel>password</FormLabel>
                 <InputGroup>
                   <Input
@@ -191,7 +190,7 @@ export function UserDetailsModal({ children }) {
                     </Button>
                   </InputRightElement>
                 </InputGroup>
-              </FormControl>
+              </FormControl> */}
               {newProfilePic ? (
                 <FormControl id="pic">
                   <FormLabel>upload picture</FormLabel>
@@ -199,7 +198,7 @@ export function UserDetailsModal({ children }) {
                     type={"file"}
                     p={1.5}
                     accept="image/*"
-                    //   onChange={(e) => postData(e.target.files[0])}
+                    onChange={(e) => postData(e.target.files[0])}
                   />
                 </FormControl>
               ) : (

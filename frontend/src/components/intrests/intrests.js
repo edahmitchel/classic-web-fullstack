@@ -28,7 +28,7 @@ const Intrests = ({
     setChatList,
     user,
     openProfile,
-    setOpenProfile,
+    // setOpenProfile,
     // setChatList,
   } = ChatState();
   const [allIntrest, setAllIntrest] = useState([]);

@@ -83,72 +83,63 @@ const updateUser = asyncHandler(
     try {
       const user = await User.findByIdAndUpdate(req.user._id, { ...update });
       const newuser = await User.findById(req.user._id);
-      // if (req.body.username) {
-      //   user.title = req.body.username;
-      // }
-
-      // if (req.body.pic) {
-      //   user.pic = req.body.pic;
-      // }
-
-      // await user.save();
       res.send(newuser);
     } catch (err) {
       res.status(404);
       res.send({ error: "user doesn't exist!", data: err });
     }
-    // third logic
-    // try {
-    //   const { id } = req.user._id;
-    //   const updates = req.body;
-
-    //   // Create a new object to store the updates
-    //   const updatedRecord = { ...updates };
-
-    //   // Loop through the updates and add each non-empty field to the updatedRecord object
-    //   // Object.keys(updates).forEach((key) => {
-    //   //   if (updates[key]) {
-    //   //     updatedRecord[key] = updates[key];
-    //   //   }
-    //   // });
-
-    //   console.log(updates);
-    //   // Find the record in the database and update it with the non-empty fields from the updatedRecord object
-    //   const result = await User.findByIdAndUpdate(id, updates, {
-    //     new: true,
-    //   });
-
-    //   res.json(result);
-    // } catch (error) {
-    //   res.status(500).send(error);
-    // }
-    // seconde logic
-    // try {
-    //   // Find the user by their ID
-    //   const user = await User.findById(req.user._id);
-
-    //   // Update the user details with the new values from the request body
-    //   if (req.body.name) user.name = req.body.name;
-    //   if (req.body.email) user.email = req.body.email;
-    //   if (req.body.pic) user.pic = req.body.pic;
-
-    //   // Save the updated user to the database
-    //   const updatedUser = await user.save();
-    //   console.log(user);
-    //   // Send a response with the updated user details
-    //   res.json({
-    //     success: true,
-    //     data: updatedUser,
-    //   });
-    // } catch (err) {
-    //   // If there was an error, send a response with a status code of 500 (Internal Server Error)
-    //   res.status(500).json({
-    //     success: false,
-    //     message: err.message,
-    //   });
-    // }
   }
 );
+// third logic
+// try {
+//   const { id } = req.user._id;
+//   const updates = req.body;
+
+//   // Create a new object to store the updates
+//   const updatedRecord = { ...updates };
+
+//   // Loop through the updates and add each non-empty field to the updatedRecord object
+//   // Object.keys(updates).forEach((key) => {
+//   //   if (updates[key]) {
+//   //     updatedRecord[key] = updates[key];
+//   //   }
+//   // });
+
+//   console.log(updates);
+//   // Find the record in the database and update it with the non-empty fields from the updatedRecord object
+//   const result = await User.findByIdAndUpdate(id, updates, {
+//     new: true,
+//   });
+
+//   res.json(result);
+// } catch (error) {
+//   res.status(500).send(error);
+// }
+// seconde logic
+// try {
+//   // Find the user by their ID
+//   const user = await User.findById(req.user._id);
+
+//   // Update the user details with the new values from the request body
+//   if (req.body.name) user.name = req.body.name;
+//   if (req.body.email) user.email = req.body.email;
+//   if (req.body.pic) user.pic = req.body.pic;
+
+//   // Save the updated user to the database
+//   const updatedUser = await user.save();
+//   console.log(user);
+//   // Send a response with the updated user details
+//   res.json({
+//     success: true,
+//     data: updatedUser,
+//   });
+// } catch (err) {
+//   // If there was an error, send a response with a status code of 500 (Internal Server Error)
+//   res.status(500).json({
+//     success: false,
+//     message: err.message,
+//   });
+// }
 
 // first logic
 //   (req, res) => {

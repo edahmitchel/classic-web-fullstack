@@ -36,18 +36,24 @@ export const registerUser = async (user, toast, setLoading, navigate) => {
 };
 
 // update user
-export const updateUserDetails = async (user, toast, setLoading) => {
+export const updateUserDetails = async (
+  user,
+  toast,
+  setLoading,
+  token,
+  setUser
+) => {
   try {
     const config = {
-      header: {
-        "Content-type": "application/json",
-      },
+      "Content-type": "application/json",
+      headers: { Authorization: `Bearer ${token}` },
     };
     const { data } = await axios.patch(
       `https://classicweb.onrender.com/api/users`,
       user,
       config
     );
+    console.log(data);
     toast({
       title: "succesfully updated.",
       // description: .",
@@ -57,6 +63,7 @@ export const updateUserDetails = async (user, toast, setLoading) => {
       position: "bottom",
     });
     localStorage.setItem("userInfo", JSON.stringify(data));
+    setUser(data);
     setLoading(false);
     // navigate("/chats");
   } catch (error) {

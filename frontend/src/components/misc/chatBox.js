@@ -1,20 +1,16 @@
-import { EditIcon } from "@chakra-ui/icons";
-import {
-  Avatar,
-  Box,
-  Image,
-  VStack,
-  AvatarBadge,
-  Text,
-} from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Box } from "@chakra-ui/react";
+import React from "react";
 import { ChatState } from "../../context/chatProvider";
 import Danieluser from "./danieluser";
 import SingleChat from "./singleChat";
-import { Userprofile } from "./userprofile";
 
 const ChatBox = ({ fetchAgain, setFetchAgain }) => {
-  const { selectedChat, openProfile, setOpenProfile, user } = ChatState();
+  const {
+    selectedChat,
+    openProfile,
+    // setOpenProfile,
+    // user
+  } = ChatState();
   return (
     <>
       {/* <VStack w={"100%"} border="2px solid purple"> */}

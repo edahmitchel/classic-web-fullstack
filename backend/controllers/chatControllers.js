@@ -96,6 +96,12 @@ const createIntrestChat = asyncHandler(async (req, res) => {
     return res.status(400).send({ message: "please fill all the fields" });
   }
   const { name } = req.body;
+  const chat = await Chat.findOne({ chatName: name });
+  if (chat) {
+    // If a chat with the same name exists, return an error
+    return res.status(400).send({ error: "Chat name already taken" });
+  }
+
   // const users = JSON.parse(req.body.users);
   // users.push(req.user._id);
   // console.log(`this is ${users}`);

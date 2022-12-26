@@ -1,5 +1,5 @@
 import { AddIcon } from "@chakra-ui/icons";
-import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Img, Stack, Text, useToast } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 // import { getSender } from "../../config/chatLogic";
@@ -9,7 +9,7 @@ import ChatLoading from "../chatLoading";
 import IntrestModal from "../modals/intrestModal";
 import { fetchAllIntrestsChats, handleAddUser } from "../../utils/apiCalls";
 import JoinIntrestModal from "../modals/joinIntrestModal";
-
+import logo from "../../images/logo.png";
 const Intrests = ({
   loggedUser,
   setFetchAgain,
@@ -83,7 +83,6 @@ const Intrests = ({
           pb={3}
           px={3}
           display="flex"
-          fontSize={{ base: "28px", md: "30px" }}
           alignItems={"center"}
           backgroundColor="inherit"
           w="100%"
@@ -91,7 +90,26 @@ const Intrests = ({
           justifyContent={"space-between"}
           // alignItems="center"}
         >
-          intrests
+          <Box
+            display="flex"
+            justifyContent={"center"}
+            gap={2}
+            alignItems="center"
+            height={"100%"}
+          >
+            <Img
+              src={logo}
+              alt="logo"
+              // height={"10px"}
+              width={"2.5rem"}
+            />
+            <Text
+              fontSize={{ base: "28px", md: "30px" }}
+              fontFamily="sans-serif"
+            >
+              interests
+            </Text>
+          </Box>
           <Box
             display={"flex"}
             alignItems="center"
@@ -137,7 +155,7 @@ const Intrests = ({
                 _selected={{ color: "white", opacity: "0.9" }}
                 color={"white"}
               >
-                my intrests
+                my interests
               </Tab>
               <Tab
                 _selected={{ color: "white", opacity: "0.7" }}

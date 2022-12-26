@@ -3,12 +3,14 @@ import {
   Box,
   FormControl,
   IconButton,
+  Img,
   Input,
   Spinner,
   Text,
   useToast,
 } from "@chakra-ui/react";
 // import { Lottie } from "@lottiefiles/lottie-js";
+import image1 from "../../images/slider-one.png";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { getSender, getSenderFull } from "../../config/chatLogic";
@@ -244,10 +246,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           display={"flex"}
           alignItems="center"
           justifyContent={"center"}
+          flexDirection="column"
           h="100%"
         >
+          <Img src={image1} alt="interests" />
           <Text fontSize={"3xl"} pb={3}>
-            click on chat to start conversation
+            create or discover interests to connect
           </Text>
         </Box>
       )}

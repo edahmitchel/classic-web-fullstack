@@ -84,7 +84,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
   try {
     // Verify the token
-    const decoded = jwt.verify(token, "your-secret-key");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const { userId } = decoded;
 
     // Find the user with the matching userId and token

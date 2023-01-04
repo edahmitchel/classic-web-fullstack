@@ -103,10 +103,10 @@ const IntrestModal = ({ children }) => {
 
           <ModalFooter>
             <Button onClick={handleSubmit} colorScheme="blue">
-              Create Chat
+              create It
             </Button>
             <Button variant={"ghost"} onClick={onClose}>
-              Close
+              next time
             </Button>
             {/* <Button variant="ghost">Secondary Action</Button> */}
           </ModalFooter>

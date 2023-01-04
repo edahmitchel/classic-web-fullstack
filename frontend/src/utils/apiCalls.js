@@ -12,7 +12,9 @@ export const registerUser = async (user, toast, setLoading, navigate) => {
       config
     );
     toast({
-      title: "thank you for joining us.",
+      title:
+        "We appreciate you joining us and have sent a verification email to your account to confirm your membership. Please check your email and follow the instructions to complete the verification process.",
+      // title: "thank you for joining us,a verification mail has been sent to you .",
       // description: .",
       status: "success",
       duration: 5000,
@@ -116,6 +118,7 @@ export const loginUser = async (user, toast, setLoading, navigate) => {
     setLoading(false);
   }
 };
+// search user
 export const searchUser = async (
   user,
   search,

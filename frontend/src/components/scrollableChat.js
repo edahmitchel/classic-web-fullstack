@@ -12,7 +12,7 @@ const ScrollableChat = ({ messages }) => {
   const { user } = ChatState();
   const messagesEnd = useRef(null);
   useEffect(() => {
-    messagesEnd.current?.scrollIntoView();
+    messagesEnd.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
   return (
     <>

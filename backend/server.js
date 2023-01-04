@@ -35,6 +35,7 @@ app.use(
 // app.get("/", (req, res) => {
 //   res.send("hello world");
 // });
+
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 app.get("/api/chat/:id", (req, res) => {

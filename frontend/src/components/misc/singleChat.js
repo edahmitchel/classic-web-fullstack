@@ -1,10 +1,13 @@
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, ArrowRightIcon } from "@chakra-ui/icons";
 import {
   Box,
+  Button,
   FormControl,
   IconButton,
   Img,
   Input,
+  InputGroup,
+  InputRightElement,
   Spinner,
   Text,
   useToast,
@@ -55,7 +58,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   }, [user]);
   const sendMessage = async (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" || e.target.id === "submitBtn") {
       socket.emit("stop typing", selectedChat._id);
       try {
         const config = {
@@ -188,13 +191,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             {/* messages */}
           </Text>
           <Box
+            position="relative"
             display={"flex"}
             flexDirection="column"
             justifyContent={"flex-end"}
             p={3}
             bg="white"
             w="100%"
-            h="100%"
+            // h="%"
             borderRadius={"lg"}
             overflowY="hidden"
           >
@@ -220,25 +224,31 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 {/* MESSAGES */}
               </Box>
             )}
-            <FormControl onKeyDown={sendMessage} isRequired mt={3}>
-              {istyping ? (
-                <div>
-                  loading...
-                  {/* <Lottie
-                    options={defaultOptions}
-                    width={70}
-                    style={{ marginBottom: 15, marginLeft: 0 }}
-                  /> */}
-                </div>
-              ) : (
-                <></>
-              )}
-              <Input
-                placeholder={"Type your message"}
-                value={newMessage}
-                onChange={typingHandler}
-              />
-            </FormControl>
+            <Box position={"absolute"} bottom="0" mt={3} w="98%">
+              <FormControl
+                onKeyDown={sendMessage}
+                isRequired
+                backgroundColor={"white"}
+
+                // w="inherit"
+              >
+                {istyping ? <div>loading...</div> : <></>}
+                <InputGroup>
+                  <Input
+                    placeholder={"Type your message"}
+                    value={newMessage}
+                    onChange={typingHandler}
+                  />
+                  <InputRightElement>
+                    <ArrowRightIcon
+                      id="submitBtn"
+                      onClick={sendMessage}
+                      color={"882433"}
+                    />
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+            </Box>
           </Box>
         </>
       ) : (

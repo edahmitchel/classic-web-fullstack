@@ -1,6 +1,11 @@
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../config/generateToken.JS");
 const { User } = require("../models/userModel");
+const {
+  generateVerificationToken,
+  sendVerificationEmail,
+} = require("../services/email");
+
 const registerUser = asyncHandler(async (req, res) => {
   console.log(req.body);
   const { username, email, password, dob, gender, pic } = req.body;
@@ -14,6 +19,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("user exists");
   }
+  const verificationToken = generateVerificationToken(username);
   const user = await User.create({
     username,
     email,
@@ -21,23 +27,82 @@ const registerUser = asyncHandler(async (req, res) => {
     dob,
     gender,
     pic,
+    verificationToken,
   });
-  //   console.log(user.username);
-  if (user)
-    res.status(201).json({
-      username: username,
-      email: user.email,
-      password: user.password,
-      gender: user.gender,
-      dob: user.dob,
-      pic: user.pic,
-      isVerified: user.isVerified,
-      _id: user._id,
-      token: generateToken(user._id),
-    });
-  else {
-    res.status(400);
-    throw new Error("failed to create user");
+  sendVerificationEmail(email, verificationToken);
+  res.status(200).json({ message: "Verification link sent to email." });
+});
+
+// old register
+
+// const registerUser = asyncHandler(async (req, res) => {
+//   console.log(req.body);
+//   const { username, email, password, dob, gender, pic } = req.body;
+
+//   if (!username || !email || !password || !dob || !gender) {
+//     res.status(400);
+//     throw new Error("fields re missing");
+//   }
+//   const userExist = await User.findOne({ email: email });
+//   if (userExist) {
+//     res.status(400);
+//     throw new Error("user exists");
+//   }
+//   const user = await User.create({
+//     username,
+//     email,
+//     password,
+//     dob,
+//     gender,
+//     pic,
+//   });
+//   //   console.log(user.username);
+//   if (user)
+//     res.status(201).json({
+//       username: username,
+//       email: user.email,
+//       password: user.password,
+//       gender: user.gender,
+//       dob: user.dob,
+//       pic: user.pic,
+//       isVerified: user.isVerified,
+//       _id: user._id,
+//       token: generateToken(user._id),
+//     });
+//   else {
+//     res.status(400);
+//     throw new Error("failed to create user");
+//   }
+// });
+
+//
+
+// verify email
+
+const verifyEmail = asyncHandler(async (req, res) => {
+  const { token } = req.query;
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, "your-secret-key");
+    const { userId } = decoded;
+
+    // Find the user with the matching userId and token
+    User.findOne({ username: userId, verificationToken: token }).then(
+      (user) => {
+        if (user) {
+          // Update the isVerified flag to true
+          user.isVerified = true;
+          user.save().then(() => {
+            res.send({ message: "Email verified." });
+          });
+        } else {
+          res.status(400).send({ message: "Invalid verification token." });
+        }
+      }
+    );
+  } catch (error) {
+    res.status(400).send({ message: "Invalid verification token." });
   }
 });
 
@@ -164,4 +229,4 @@ const updateUser = asyncHandler(
 
 //   // This function assumes that you have already defined a Mongoose model for the database collection that you want to edit, and that you have imported this model into your controller file. It also assumes that the id of the document to edit is passed as a URL parameter, and that the updated value for the field is passed in the request body. You may need to adjust these details to match your specific use case.
 // );
-module.exports = { registerUser, authUser, allUsers, updateUser };
+module.exports = { registerUser, authUser, allUsers, updateUser, verifyEmail };

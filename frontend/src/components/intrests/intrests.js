@@ -77,7 +77,8 @@ const Intrests = ({
         borderRadius="lg"
         borderWidth={"1px"}
         scrollBehavior="smooth"
-        overflowY={"scroll"}
+        // overflowY={"scroll"}
+        // height="100%"
       >
         <Box
           pb={3}
@@ -107,7 +108,7 @@ const Intrests = ({
               fontSize={{ base: "28px", md: "30px" }}
               fontFamily="sans-serif"
             >
-              interests
+              Classic
             </Text>
           </Box>
           <Box
@@ -144,6 +145,7 @@ const Intrests = ({
           p={3}
           w="100%"
           h="100%"
+          mt={2}
           borderRadius={"lg"}
           overflowY="hidden"
           backgroundColor="#F8F8F8"
@@ -170,7 +172,7 @@ const Intrests = ({
                   <Stack
                     overflowY={"scroll"}
                     scrollBehavior="smooth"
-                    height={"100%"}
+                    height={"100vh"}
                   >
                     {chatList
                       .filter((chat) => chat.isGroupChat === true)
@@ -203,40 +205,45 @@ const Intrests = ({
                 )}
                 <p>one!</p>
               </TabPanel>
-              <TabPanel overflowY={"scroll"}>
+              <TabPanel>
                 {/* <p>two!</p> */}
-                <Stack overflowY={"scroll"}></Stack>
-                {allIntrest.map((chat) => (
-                  <Box
-                    key={chat._id}
-                    color={
-                      // "white"
-                      // :
-                      "black"
-                    }
-                    // onClick={() => {
-                    //   ;
-                    // }}
-                    cursor={"pointer"}
-                    bg={
-                      // selectedChat === chat ?
-                      // "#38B2AC"  :
-                      "#E8E8E8"
-                    }
-                    // color={selectedChat === chat ? "white" : "black"}
-                    px={3}
-                    py={2}
-                    marginY={1}
-                    borderRadius="lg"
-                  >
-                    <JoinIntrestModal
-                      handleJoin={handleJoinIntrestChat}
-                      chat={chat}
+                <Stack
+                  overflowY={"scroll"}
+                  scrollBehavior="smooth"
+                  height={"100vh"}
+                >
+                  {allIntrest.map((chat) => (
+                    <Box
+                      key={chat._id}
+                      color={
+                        // "white"
+                        // :
+                        "black"
+                      }
+                      // onClick={() => {
+                      //   ;
+                      // }}
+                      cursor={"pointer"}
+                      bg={
+                        // selectedChat === chat ?
+                        // "#38B2AC"  :
+                        "#E8E8E8"
+                      }
+                      // color={selectedChat === chat ? "white" : "black"}
+                      px={3}
+                      py={2}
+                      marginY={1}
+                      borderRadius="lg"
                     >
-                      <Text>{chat.chatName}</Text>
-                    </JoinIntrestModal>
-                  </Box>
-                ))}
+                      <JoinIntrestModal
+                        handleJoin={handleJoinIntrestChat}
+                        chat={chat}
+                      >
+                        <Text>{chat.chatName}</Text>
+                      </JoinIntrestModal>
+                    </Box>
+                  ))}
+                </Stack>
                 {/* {allIntrest ? (
                   <Stack overflowY={"scroll"}> */}
                 {/* {allIntrest

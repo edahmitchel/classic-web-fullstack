@@ -4,6 +4,7 @@ const {
   authUser,
   allUsers,
   updateUser,
+  verifyEmail,
 } = require("../controllers/userControllers");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -13,6 +14,8 @@ router
   .post(registerUser)
   .get(protect, allUsers)
   .patch(protect, updateUser);
+
+router.get("/verify-email", verifyEmail);
 router.post("/login", authUser);
 router.put("/update", authUser);
 // router.route("/");

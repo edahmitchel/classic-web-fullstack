@@ -47,7 +47,7 @@ export const Userdatamodal = ({ children }) => {
 
     return (
       <>
-        <span onClick={onOpen}>{children}</span>
+        {children ? <span onClick={onOpen}>{children}</span> : ""}
 
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />

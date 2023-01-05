@@ -19,7 +19,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("user exists");
   }
-  const verificationToken = generateVerificationToken(username);
+  const verificationToken = generateVerificationToken(email);
   const user = await User.create({
     username,
     email,

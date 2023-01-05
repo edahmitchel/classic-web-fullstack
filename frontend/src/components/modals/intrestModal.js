@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { ChatState } from "../../context/chatProvider";
+
 const IntrestModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [intrestName, setIntrestName] = useState("");
@@ -42,7 +43,7 @@ const IntrestModal = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(
+      const resp = await axios.post(
         `https://classicweb.onrender.com/api/chat/intrest`,
         {
           name: intrestName,
@@ -50,8 +51,10 @@ const IntrestModal = ({ children }) => {
         },
         config
       );
+      // console.log(resp);
+      const { data } = resp;
       console.log("this is data from creating intrest", data);
-      setChatList([data, ...chatList]);
+      // if (data) setChatList([data, ...chatList]);
       onClose();
       toast({
         title: "New Group Chat Created!",
@@ -73,7 +76,7 @@ const IntrestModal = ({ children }) => {
   };
   return (
     <>
-      <span onClick={onOpen}>{children}</span>
+      {children ? <span onClick={onOpen}>{children}</span> : ""}
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

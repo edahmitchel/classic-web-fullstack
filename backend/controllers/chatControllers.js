@@ -93,7 +93,9 @@ const createIntrestChat = asyncHandler(async (req, res) => {
     // !req.body.users ||
     !req.body.name
   ) {
-    return res.status(400).send({ message: "please fill all the fields" });
+    return res.status(400);
+    throw { message: "please fill all the fields" };
+    // send({ message: "please fill all the fields" });
   }
   const { name } = req.body;
   const chat = await Chat.findOne({ chatName: name });

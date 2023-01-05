@@ -11,7 +11,6 @@ import {
   useToast,
   Box,
   Text,
-  color,
 } from "@chakra-ui/react";
 import {
   useNavigate,

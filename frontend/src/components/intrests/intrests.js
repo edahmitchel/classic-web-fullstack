@@ -239,7 +239,9 @@ const Intrests = ({
                         handleJoin={handleJoinIntrestChat}
                         chat={chat}
                       >
-                        <Text>{chat.chatName}</Text>
+                        <span>
+                          <Text>{chat.chatName}</Text>
+                        </span>
                       </JoinIntrestModal>
                     </Box>
                   ))}

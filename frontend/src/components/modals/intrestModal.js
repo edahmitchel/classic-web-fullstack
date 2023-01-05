@@ -25,6 +25,7 @@ const IntrestModal = ({ children }) => {
   // const [loading, setLoading] = useState();
   const toast = useToast();
   const { user, chatList, setChatList } = ChatState();
+  console.log(chatList);
   const handleSubmit = async () => {
     if (!intrestName) {
       toast({
@@ -43,7 +44,7 @@ const IntrestModal = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const resp = await axios.post(
+      const { data } = await axios.post(
         `https://classicweb.onrender.com/api/chat/intrest`,
         {
           name: intrestName,
@@ -51,10 +52,7 @@ const IntrestModal = ({ children }) => {
         },
         config
       );
-      // console.log(resp);
-      const { data } = resp;
-      console.log("this is data from creating intrest", data);
-      // if (data) setChatList([data, ...chatList]);
+      if (data) setChatList([data, ...chatList]);
       onClose();
       toast({
         title: "New Group Chat Created!",
@@ -76,7 +74,7 @@ const IntrestModal = ({ children }) => {
   };
   return (
     <>
-      {children ? <span onClick={onOpen}>{children}</span> : ""}
+      <span onClick={onOpen}>{children}</span>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -87,7 +85,7 @@ const IntrestModal = ({ children }) => {
             display={"flex"}
             justifyContent="center"
           >
-            create intrest
+            create interest
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody
@@ -97,7 +95,7 @@ const IntrestModal = ({ children }) => {
           >
             <FormControl>
               <Input
-                placeholder=" Intrest Name"
+                placeholder=" Interest Name"
                 mb={3}
                 onChange={(e) => setIntrestName(e.target.value)}
               />

@@ -48,7 +48,7 @@ const registerUser = asyncHandler(async (req, res) => {
     verificationToken,
   });
   sendVerificationEmail(email, verificationToken, username);
-  res.status(200).json({ message: "Verification link sent to email." });
+  res.status(200).json({ message: "Verification link sent to email.", user });
 });
 
 // old register
@@ -128,6 +128,7 @@ const authUser = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username: username });
   if (!user) return res.status(400).json("user does not exist");
+  console.log(user);
   if (user && (await user.matchPassword(password))) {
     if (!user.isVerified) {
       return res.status(400).send("Email is not verified");

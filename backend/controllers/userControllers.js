@@ -32,9 +32,11 @@ const registerUser = asyncHandler(async (req, res) => {
     separator: "",
     length: 2,
   };
-  const username = await uniqueNamesGenerator(customConfig); // big-donkey
-
-  const verificationToken = generateVerificationToken(username);
+  const generatedUserName = await uniqueNamesGenerator(customConfig); // big-donkey
+  console.log(generatedUserName);
+  const verificationToken = generateVerificationToken(generatedUserName);
+  const username = generatedUserName;
+  console.log(username);
   const user = await User.create({
     username,
     email,

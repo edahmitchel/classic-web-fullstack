@@ -13,7 +13,7 @@ const transport = nodemailer.createTransport({
 });
 
 // Generate a random verification token
-const generateVerificationToken = (usernam) => {
+const generateVerificationToken = (username) => {
   return jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: "1h" });
 };
 

@@ -97,7 +97,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // verify email
 
 const verifyEmail = asyncHandler(async (req, res) => {
-  const { token } = req.query;
+  const token = req.query.token;
 
   try {
     // Verify the token
@@ -115,14 +115,12 @@ const verifyEmail = asyncHandler(async (req, res) => {
             res.send({ message: "Email verified." });
           });
         } else {
-          res
-            .status(400)
-            .send({
-              message: "Invalid verification token.",
-              token,
-              username,
-              decoded,
-            });
+          res.status(400).send({
+            message: "Invalid verification token.",
+            token,
+            username,
+            decoded,
+          });
         }
       }
     );

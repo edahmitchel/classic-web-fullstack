@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../config/generateToken.JS");
 const { User } = require("../models/userModel");
+const bcrypt = require("bcryptjs");
 const {
   generateVerificationToken,
   sendVerificationEmail,
@@ -16,7 +17,6 @@ const {
 const registerUser = asyncHandler(async (req, res) => {
   console.log(req.body);
   const { email, password, dob, gender, pic } = req.body;
-
   if (!email || !password || !dob || !gender) {
     res.status(400);
     throw new Error("fields re missing");
@@ -27,6 +27,8 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("user exists");
   }
 
+  const salt = await bcrypt.genSalt(10);
+  hashedPassword = await bcrypt.hash(password, salt);
   // generate alias
   const customConfig = {
     dictionaries: [adjectives, colors, animals],
@@ -41,7 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     username,
     email,
-    password,
+    password: hashedPassword,
     dob,
     gender,
     pic,

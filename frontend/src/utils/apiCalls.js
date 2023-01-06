@@ -21,9 +21,9 @@ export const registerUser = async (user, toast, setLoading, navigate) => {
       isClosable: true,
       position: "bottom",
     });
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    // localStorage.setItem("userInfo", JSON.stringify(data));
     setLoading(false);
-    navigate("/chats");
+    // navigate("/chats");
   } catch (error) {
     console.log(error);
     toast({

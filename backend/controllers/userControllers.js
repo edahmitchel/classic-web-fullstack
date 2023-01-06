@@ -48,7 +48,9 @@ const registerUser = asyncHandler(async (req, res) => {
     verificationToken,
   });
   sendVerificationEmail(email, verificationToken, username);
-  res.status(200).json({ message: "Verification link sent to email.", user });
+  res
+    .status(200)
+    .json({ message: "Verification link sent to email.", user, password });
 });
 
 // old register

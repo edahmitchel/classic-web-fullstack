@@ -27,7 +27,7 @@ export const registerUser = async (user, toast, setLoading, navigate) => {
   } catch (error) {
     toast({
       title: "error.",
-      description: error.response.data.message,
+      description: error,
       status: "warning",
       duration: 5000,
       isClosable: true,

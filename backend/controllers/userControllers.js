@@ -5,12 +5,18 @@ const {
   generateVerificationToken,
   sendVerificationEmail,
 } = require("../services/email");
+const {
+  uniqueNamesGenerator,
+  adjectives,
+  colors,
+  animals,
+} = require("unique-names-generator");
 
 const registerUser = asyncHandler(async (req, res) => {
   console.log(req.body);
-  const { username, email, password, dob, gender, pic } = req.body;
+  const { email, password, dob, gender, pic } = req.body;
 
-  if (!username || !email || !password || !dob || !gender) {
+  if (!email || !password || !dob || !gender) {
     res.status(400);
     throw new Error("fields re missing");
   }
@@ -19,7 +25,16 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("user exists");
   }
-  const verificationToken = generateVerificationToken(email);
+
+  // generate alias
+  const customConfig = {
+    dictionaries: [adjectives, colors, animals],
+    separator: "",
+    length: 2,
+  };
+  const username = uniqueNamesGenerator(customConfig); // big-donkey
+
+  const verificationToken = generateVerificationToken(username);
   const user = await User.create({
     username,
     email,
@@ -29,7 +44,7 @@ const registerUser = asyncHandler(async (req, res) => {
     pic,
     verificationToken,
   });
-  sendVerificationEmail(email, verificationToken);
+  sendVerificationEmail(email, verificationToken, username);
   res.status(200).json({ message: "Verification link sent to email." });
 });
 
@@ -85,10 +100,10 @@ const verifyEmail = asyncHandler(async (req, res) => {
   try {
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { userId } = decoded;
+    const { username } = decoded;
 
     // Find the user with the matching userId and token
-    User.findOne({ username: userId, verificationToken: token }).then(
+    User.findOne({ username: username, verificationToken: token }).then(
       (user) => {
         if (user) {
           // Update the isVerified flag to true
@@ -111,6 +126,9 @@ const authUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ username: username });
   if (!user) return res.status(400).json("user does not exist");
   if (user && (await user.matchPassword(password))) {
+    if (!user.isVerified) {
+      return res.status(400).send("Email is not verified");
+    }
     res.status(200).json({
       username: user.username,
       email: user.email,

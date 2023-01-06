@@ -13,12 +13,12 @@ const transport = nodemailer.createTransport({
 });
 
 // Generate a random verification token
-const generateVerificationToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "1h" });
+const generateVerificationToken = (usernam) => {
+  return jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: "1h" });
 };
 
 // Send the verification email with a link
-const sendVerificationEmail = (email, verificationToken) => {
+const sendVerificationEmail = (email, verificationToken, username) => {
   const verificationLink = ``;
 
   // Send the email with the verification link
@@ -26,7 +26,7 @@ const sendVerificationEmail = (email, verificationToken) => {
     from: "edahmitchel@email.com",
     to: email,
     subject: "Verify your email",
-    html: `<p>Click <a href="https://classicweb.onrender.com/api/users/verify-email?token=${verificationToken}">here</a> to verify your email.</p>`,
+    html: `<p>${username} Click <a href="https://classicweb.onrender.com/api/users/verify-email?token=${verificationToken}">here</a> to verify your email.</p>`,
   };
   transport.sendMail(mailOptions, (error, info) => {
     if (error) {

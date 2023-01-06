@@ -1,4 +1,4 @@
-import { ArrowBackIcon, ArrowRightIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, ArrowRightIcon, InfoIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -21,6 +21,7 @@ import { ChatState } from "../../context/chatProvider";
 import ScrollableChat from "../scrollableChat";
 import ProfileComp from "./profileComp";
 import io from "socket.io-client";
+import { UsersListModal } from "../modals/usersListModal";
 // import animationData from "../../animation/52671-typing-animation-in-chat.json";
 const ENDPOINT = "https://classicweb.onrender.com";
 // "https://classic-web-chat.herokuapp.com";
@@ -189,6 +190,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               selectedChat.chatName.toUpperCase()
             )}
             {/* messages */}
+            {selectedChat.isGroupChat === true ? (
+              <UsersListModal usersList={selectedChat.users} user={user} />
+            ) : (
+              ""
+            )}
           </Text>
           <Box
             position="relative"

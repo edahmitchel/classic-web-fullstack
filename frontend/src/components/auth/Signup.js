@@ -68,7 +68,6 @@ const Signup = () => {
     setLoading(true);
 
     if (
-      !newUser.username ||
       !newUser.email ||
       !newUser.password ||
       !newUser.confirmPassword ||
@@ -103,13 +102,13 @@ const Signup = () => {
 
   return (
     <VStack spacing="5px" color={"b"}>
-      <FormControl id="username" isRequired>
+      {/* <FormControl id="username" isRequired>
         <FormLabel>username</FormLabel>
         <Input
           placeholder="enter your username"
           onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
         />
-      </FormControl>
+      </FormControl> */}
       <FormControl id="email" isRequired>
         <FormLabel>email</FormLabel>
         <Input

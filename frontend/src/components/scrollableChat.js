@@ -55,7 +55,7 @@ const ScrollableChat = ({ messages }) => {
               {m.content}
               <span>
                 {isSameSender(messages, m, i, user._id) ? (
-                  <Text fontSize={"0.7em"}>user:{m.sender._id}</Text>
+                  <Text fontSize={"0.7em"}>user:{m.sender.username}</Text>
                 ) : (
                   <></>
                 )}

@@ -25,9 +25,10 @@ export const registerUser = async (user, toast, setLoading, navigate) => {
     setLoading(false);
     navigate("/chats");
   } catch (error) {
+    console.log(error);
     toast({
       title: "error.",
-      description: error,
+      // description: error,
       status: "warning",
       duration: 5000,
       isClosable: true,

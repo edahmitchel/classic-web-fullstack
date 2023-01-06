@@ -32,7 +32,7 @@ const registerUser = asyncHandler(async (req, res) => {
     separator: "",
     length: 2,
   };
-  const username = uniqueNamesGenerator(customConfig); // big-donkey
+  const username = await uniqueNamesGenerator(customConfig); // big-donkey
 
   const verificationToken = generateVerificationToken(username);
   const user = await User.create({

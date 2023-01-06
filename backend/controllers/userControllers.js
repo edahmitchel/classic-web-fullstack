@@ -122,7 +122,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
       }
     );
   } catch (error) {
-    res.status(400).send({ message: "Invalid verification token." });
+    res.status(400).send({ message: "Invalid verification token.", error });
   }
 });
 

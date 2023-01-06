@@ -103,6 +103,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const { username } = decoded;
+    c;
 
     // Find the user with the matching userId and token
     User.findOne({ username: username, verificationToken: token }).then(
@@ -114,7 +115,9 @@ const verifyEmail = asyncHandler(async (req, res) => {
             res.send({ message: "Email verified." });
           });
         } else {
-          res.status(400).send({ message: "Invalid verification token." });
+          res
+            .status(400)
+            .send({ message: "Invalid verification token.", token, username });
         }
       }
     );

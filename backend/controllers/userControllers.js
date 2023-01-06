@@ -1,11 +1,11 @@
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../config/generateToken.JS");
 const { User } = require("../models/userModel");
-const jwt = require("jsonwebtoken");
 const {
   generateVerificationToken,
   sendVerificationEmail,
 } = require("../services/email");
+const jwt = require("jsonwebtoken");
 const {
   uniqueNamesGenerator,
   adjectives,
@@ -98,41 +98,29 @@ const registerUser = asyncHandler(async (req, res) => {
 // verify email
 
 const verifyEmail = asyncHandler(async (req, res) => {
-  const token = req.query.token;
+  const { token } = req.query;
 
   try {
     // Verify the token
-    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
-
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const { username } = decoded;
-    res.status(200).send({ decoded, token });
+
     // Find the user with the matching userId and token
-    // User.findOne({ username: username, verificationToken: token }).then(
-    //   (user) => {
-    //     if (user) {
-    //       // Update the isVerified flag to true
-    //       user.isVerified = true;
-    //       user.save().then(() => {
-    //         res.send({ message: "Email verified." });
-    //       });
-    //     } else {
-    //       res.status(400).send({
-    //         message: "Invalid verification token.",
-    //         token,
-    //         username,
-    //         decoded,
-    //       });
-    //     }
-    //   }
-    // );
+    User.findOne({ username: username, verificationToken: token }).then(
+      (user) => {
+        if (user) {
+          // Update the isVerified flag to true
+          user.isVerified = true;
+          user.save().then(() => {
+            res.send({ message: "Email verified." });
+          });
+        } else {
+          res.status(400).send({ message: "Invalid verification token." });
+        }
+      }
+    );
   } catch (error) {
-    res.status(400).send({
-      message: "Invalid verification token second.",
-      // error,
-      // username,
-      token,
-      // decoded,
-    });
+    res.status(400).send({ message: "Invalid verification token." });
   }
 });
 

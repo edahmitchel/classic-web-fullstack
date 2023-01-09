@@ -63,7 +63,7 @@ const ScrollableChat = ({ messages }) => {
             </span>
           </div>
         ))}
-      <div ref={messagesEnd}></div>
+      <div style={{ height: "80vh" }} ref={messagesEnd}></div>
       {/* </ScrollableFeed> */}
     </>
   );

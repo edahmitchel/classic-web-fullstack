@@ -17,6 +17,6 @@ router
 
 router.get("/verify-email", verifyEmail);
 router.post("/login", authUser);
-router.put("/update", authUser);
+router.put("/update", updateUser);
 // router.route("/");
 module.exports = router;

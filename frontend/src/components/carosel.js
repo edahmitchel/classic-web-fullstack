@@ -91,11 +91,11 @@ export const Carousel = () => {
           </Box>
         </Box>
       </Stack>
-      <Box>
+      {/* <Box>
         <button onClick={() => setCurrentIndex(0)}>first</button>
         <button onClick={() => setCurrentIndex(1)}>second</button>
         <button onClick={() => setCurrentIndex(2)}>third</button>
-      </Box>
+      </Box> */}
     </>
   );
 };

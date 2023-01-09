@@ -1,4 +1,18 @@
-import { Box, Button, Divider, Stack, Text } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 // import React, { useState } from "react";
 import { getSender } from "../config/chatLogic";
 import { ChatState } from "../context/chatProvider";
@@ -13,15 +27,22 @@ const MyChats = ({
   setCurrentTab,
   openProfile,
 }) => {
+  const navigate = useNavigate();
   // const [loggedUserState, setLoggedUserState] = useState();
   const {
     // user,
     // setUser,
+    user,
     selectedChat,
     setSelectedChat,
     chatList,
+    setOpenProfile,
     // setChatList,
   } = ChatState();
+  const logoutHandler = () => {
+    localStorage.removeItem("userInfo");
+    navigate("/");
+  };
   // setCurrentTab("intrests");
   //   const token = user.token;
   //   const toast = useToast();
@@ -64,12 +85,34 @@ const MyChats = ({
             justifyContent={"space-between"}
             alignItems="center"
             fontSize={"12px"}
-            gap={2}
+            // gap={2}
           >
-            <Text>all users</Text>
-            <Button>search</Button>
+            {/* <Box>
+              <Text>all users</Text>
+            </Box> */}
+            <Box>
+              <div>
+                <Menu>
+                  <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                    <Avatar
+                      size={"sm"}
+                      cursor="pointer"
+                      name={user?.name}
+                      src={user?.pic}
+                    />
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem onClick={() => setOpenProfile(true)}>
+                      profile
+                    </MenuItem>
+                    <MenuDivider />
+                    <MenuItem onClick={logoutHandler}>logout</MenuItem>
+                  </MenuList>
+                </Menu>
+              </div>
+            </Box>
           </Box>
-          <Divider color={"blue"} />
+          {/* <Divider color={"blue"} /> */}
         </Box>
         {/* end of main box */}
         <Box
@@ -95,7 +138,7 @@ const MyChats = ({
             color="black"
             onClick={() => setCurrentTab("intrests")}
           >
-            iiii
+            i
           </Button>
         </Box>
         <Box
@@ -114,7 +157,10 @@ const MyChats = ({
                 .filter((chat) => chat.isGroupChat === false)
                 .map((chat) => (
                   <Box
-                    onClick={() => setSelectedChat(chat)}
+                    onClick={() => {
+                      setSelectedChat(chat);
+                      setOpenProfile(false);
+                    }}
                     cursor={"pointer"}
                     bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
                     color={selectedChat === chat ? "white" : "black"}

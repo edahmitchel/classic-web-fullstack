@@ -25,7 +25,7 @@ const IntrestModal = ({ children }) => {
   // const [loading, setLoading] = useState();
   const toast = useToast();
   const { user, chatList, setChatList } = ChatState();
-  console.log(chatList);
+  // console.log(chatList);
   const handleSubmit = async () => {
     if (!intrestName) {
       toast({
@@ -55,7 +55,7 @@ const IntrestModal = ({ children }) => {
       if (data) setChatList([data, ...chatList]);
       onClose();
       toast({
-        title: "New Group Chat Created!",
+        title: "New interest Created!",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -63,7 +63,7 @@ const IntrestModal = ({ children }) => {
       });
     } catch (error) {
       toast({
-        title: "Failed to Create the Chat!",
+        title: "Failed to Create interest!",
         description: error.response.data,
         status: "error",
         duration: 5000,
@@ -97,7 +97,7 @@ const IntrestModal = ({ children }) => {
               <Input
                 placeholder=" Interest Name"
                 mb={3}
-                onChange={(e) => setIntrestName(e.target.value)}
+                onChange={(e) => setIntrestName(e.target.value.toLowerCase())}
               />
             </FormControl>
           </ModalBody>

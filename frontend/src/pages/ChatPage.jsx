@@ -26,16 +26,16 @@ const ChatPage = () => {
 
     return (
         <div style={{ width: "100%" }} >
-            {user && <SideDrawer />}
+            {/* {user && <SideDrawer />} */}
             <Box display="flex" justifyContent="space-between"
-                w="100%" h="92vh" p="10px">
+                w="100%" h="100vh" p="10px">
                 {/* hello */}
                 {/* {user.token} */}
                 {user &&
 
 
                     <Intrests currentTab={currentTab} setCurrentTab={setCurrentTab} loggedUser={loggedUser} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
-                {user && <ChatBox loggedUser={loggedUser} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
+                {user && <ChatBox loggedUser={loggedUser} />}
                 {user && <MyChats currentTab={currentTab} setCurrentTab={setCurrentTab} loggedUser={loggedUser} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
             </Box>
             {/* {user?.email} */}

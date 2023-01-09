@@ -28,6 +28,8 @@ const Intrests = ({
     setChatList,
     user,
     openProfile,
+    setOpenProfile,
+    fetchAgain,
     // setOpenProfile,
     // setChatList,
   } = ChatState();
@@ -36,7 +38,7 @@ const Intrests = ({
     if (loggedUser) {
       fetchAllIntrestsChats(loggedUser?.token, setAllIntrest, toast);
     }
-  }, [loggedUser?.token]);
+  }, [loggedUser?.token, fetchAgain]);
   const handleJoinIntrestChat = (chat) => {
     handleAddUser(
       chat,
@@ -178,7 +180,10 @@ const Intrests = ({
                       .filter((chat) => chat.isGroupChat === true)
                       .map((chat) => (
                         <Box
-                          onClick={() => setSelectedChat(chat)}
+                          onClick={() => {
+                            setSelectedChat(chat);
+                            setOpenProfile(false);
+                          }}
                           cursor={"pointer"}
                           bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
                           color={selectedChat === chat ? "white" : "black"}
@@ -190,7 +195,7 @@ const Intrests = ({
                           <Text>{chat.chatName}</Text>
                           {chat.latestMessage && (
                             <Text fontSize="xs">
-                              <b>user-{chat.latestMessage.sender._id} : </b>
+                              <b>{chat.latestMessage.sender.username} : </b>
                               {chat.latestMessage.content.length > 50
                                 ? chat.latestMessage.content.substring(0, 51) +
                                   "..."

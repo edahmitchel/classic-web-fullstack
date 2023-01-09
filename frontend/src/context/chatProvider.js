@@ -8,6 +8,7 @@ const ChatProvider = ({ children }) => {
   const [selectedChat, setSelectedChat] = useState();
   const [openProfile, setOpenProfile] = useState();
   const [chatList, setChatList] = useState([]);
+  const [fetchAgain, setFetchAgain] = useState(false);
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     setUser(userInfo);
@@ -29,6 +30,8 @@ const ChatProvider = ({ children }) => {
         setChatList,
         setOpenProfile,
         openProfile,
+        fetchAgain,
+        setFetchAgain,
       }}
     >
       {children}

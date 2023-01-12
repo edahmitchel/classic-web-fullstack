@@ -26,7 +26,7 @@ const sendVerificationEmail = (email, verificationToken, username) => {
     from: "edahmitchel@email.com",
     to: email,
     subject: "Verify your email",
-    html: `<p>${username} Click <a href="https://classicweb.onrender.com/api/users/verify-email?token=${verificationToken}">here</a> to verify your email.</p>`,
+    html: `<p>your user name is ${username} Click <a href="https://classicweb.onrender.com/api/users/verify-email?token=${verificationToken}">here</a> to verify your email.Once verified you can login to your account using your assigned username</p>`,
   };
   transport.sendMail(mailOptions, (error, info) => {
     if (error) {

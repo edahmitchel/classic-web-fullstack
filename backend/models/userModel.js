@@ -34,18 +34,18 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
-  console.log(await bcrypt.compare(enteredPassword, this.password));
+  // console.log(await bcrypt.compare(enteredPassword, this.password));
   //  test
-  const salt = await bcrypt.genSalt(10);
-  const check = await bcrypt.hash("check", salt);
-  const check2 = await bcrypt.hash("pass", salt);
-  const check3 = await bcrypt.compare(enteredPassword, check2);
+  // const salt = await bcrypt.genSalt(10);
+  // const check = await bcrypt.hash("check", salt);
+  // const check2 = await bcrypt.hash("pass", salt);
+  // const check3 = await bcrypt.compare(enteredPassword, check2);
 
-  console.log({ check, check2, check3 });
-  //
-  console.log(enteredPassword);
-  console.log(await bcrypt.compareSync(enteredPassword, this.password));
-  console.log(this.password);
+  // console.log({ check, check2, check3 });
+  // //
+  // console.log(enteredPassword);
+  // console.log(await bcrypt.compareSync(enteredPassword, this.password));
+  // console.log(this.password);
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

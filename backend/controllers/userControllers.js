@@ -16,8 +16,8 @@ const {
 
 const registerUser = asyncHandler(async (req, res) => {
   console.log(req.body);
-  const { email, password, dob, gender, pic } = req.body;
-  if (!email || !password || !dob || !gender) {
+  const { username, email, password, dob, gender, pic } = req.body;
+  if (!email || !password || !dob || !gender || !username) {
     res.status(400);
     throw new Error("fields re missing");
   }
@@ -30,16 +30,16 @@ const registerUser = asyncHandler(async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   hashedPassword = await bcrypt.hash(password, salt);
   // generate alias
-  const customConfig = {
-    dictionaries: [adjectives, colors, animals],
-    separator: "",
-    length: 2,
-  };
-  const generatedUserName = await uniqueNamesGenerator(customConfig); // big-donkey
+  // const customConfig = {
+  //   dictionaries: [adjectives, colors, animals],
+  //   separator: "",
+  //   length: 2,
+  // };
+  // const generatedUserName = await uniqueNamesGenerator(customConfig); // big-donkey
   console.log(generatedUserName);
-  const verificationToken = generateVerificationToken(generatedUserName);
-  const username = generatedUserName;
-  console.log(username);
+  const verificationToken = generateVerificationToken(username);
+  // const username = generatedUserName;
+  // console.log(username);
   const user = await User.create({
     username,
     email,
@@ -130,12 +130,13 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
 const authUser = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
+  // checking database
   const user = await User.findOne({ username: username });
   if (!user) return res.status(400).json("user does not exist");
   console.log(user);
   if (user && (await user.matchPassword(password))) {
     if (!user.isVerified) {
-      return res.status(400).send("Email is not verified");
+      return res.status(400).json("Email is not verified");
     }
     res.status(200).json({
       username: user.username,
@@ -150,7 +151,7 @@ const authUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error("invalid email or password");
+    throw new Error("invalid username or password");
   }
 });
 const allUsers = asyncHandler(async (req, res) => {

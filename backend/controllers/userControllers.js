@@ -19,7 +19,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password, dob, gender, pic } = req.body;
   if (!email || !password || !dob || !gender || !username) {
     res.status(400);
-    throw new Error("fields re missing");
+    throw new Error("please input all required data");
   }
   const userExist = await User.findOne({ email: email });
   if (userExist) {
@@ -36,7 +36,7 @@ const registerUser = asyncHandler(async (req, res) => {
   //   length: 2,
   // };
   // const generatedUserName = await uniqueNamesGenerator(customConfig); // big-donkey
-  console.log(generatedUserName);
+  // console.log(generatedUserName);
   const verificationToken = generateVerificationToken(username);
   // const username = generatedUserName;
   // console.log(username);

@@ -14,6 +14,12 @@ const chatModel = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Message",
     },
+    anonymousIds: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "AnonymousId",
+      },
+    ],
     // groupAdmin:
     //     {
     //         type:mongoose.Schema.Types.ObjectId,

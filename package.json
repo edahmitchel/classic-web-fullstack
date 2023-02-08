@@ -17,6 +17,7 @@
     "@types/mongoose": "^5.11.97",
     "@types/nodemailer": "^6.4.7",
     "@types/nodemon": "^1.19.2",
+    "@types/shortid": "^0.0.29",
     "@types/socket.io": "^3.0.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
@@ -26,6 +27,7 @@
     "mongoose": "^6.6.7",
     "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20",
+    "shortid": "^2.2.16",
     "socket.io": "^4.5.3",
     "unique-names-generator": "^4.7.1"
   }

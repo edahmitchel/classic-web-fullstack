@@ -29,6 +29,12 @@ const userSchema = mongoose.Schema(
       required: false,
       default: false,
     },
+    anonymousIds: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "AnonymousId",
+      },
+    ],
   },
   { timestamps: true }
 );

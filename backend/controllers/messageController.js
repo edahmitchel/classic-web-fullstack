@@ -34,10 +34,11 @@ const sendMessage = asyncHandler(async (req, res) => {
 
     if (!anonymousId) {
       // Create a new anonymousId document with a unique id
+
       const newAnonymousId = new AnonymousId({
         user: req.user._id,
         chat: chatId,
-        anonymousId: generateUniqueId(),
+        anonymousId: await generateUniqueId(),
       });
 
       anonymousId = await newAnonymousId.save(); // Save the new document to the database
@@ -66,7 +67,10 @@ const sendMessage = asyncHandler(async (req, res) => {
           model: "User",
         },
       })
-      .populate("anonymousId");
+      .populate({
+        path: "anonymousId",
+        select: "anonymousId",
+      });
 
     // Update the latestMessage field of the Chat document with the saved message
     await Chat.findByIdAndUpdate(chatId, {
@@ -124,7 +128,12 @@ const allMessage = asyncHandler(async (req, res) => {
   try {
     const messages = await Message.find({ chat: req.params.chatId })
       .populate("sender", "username pic")
-      .populate("chat");
+      .populate("chat")
+      .populate({
+        path: "anonymousId",
+        select: "anonymousId",
+      });
+
     res.json(messages);
   } catch (error) {
     res.status(400);

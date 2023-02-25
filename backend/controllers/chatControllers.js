@@ -49,7 +49,11 @@ const accessChat = asyncHandler(async (req, res) => {
 const fetchChats = asyncHandler(async (req, res) => {
   try {
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
-      .populate("users", "-password")
+      .populate("users", "-password -verificationToken")
+      .populate({
+        path: "anonymousIds",
+        select: "anonymousId",
+      })
       // .populate("groupAdmin", "-password")
       .populate("latestMessage")
       .sort({ updatedAt: -1 })
@@ -90,10 +94,9 @@ const fetchChats = asyncHandler(async (req, res) => {
 //     throw new Error(error.message);
 //   }
 // });
-
 const createInterestChat = asyncHandler(async (req, res) => {
   if (!req.body.name) {
-    return res.status(400).send("Please provide a chat name");
+    return res.status(400).send("Please fill in all fields");
   }
 
   const { name } = req.body;
@@ -103,32 +106,74 @@ const createInterestChat = asyncHandler(async (req, res) => {
     return res.status(400).send("Chat name already taken");
   }
 
-  // Generate a new anonymousId for the user
-  const anonymousId = await AnonymousId.create({
-    user: req.user._id,
-    chat: null,
-    anonymousId: await generateUniqueId(),
-  });
-
-  const groupChat = await Chat.create({
-    chatName: name,
-    users: [req.user._id],
-    isGroupChat: true,
-    anonymousIds: [anonymousId._id],
-  });
-
-  const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
-    .populate("users", "-password")
-    .populate({
-      path: "anonymousIds",
-      populate: {
-        path: "user",
-        select: "-password",
-      },
+  try {
+    const groupChat = await Chat.create({
+      chatName: name,
+      users: [req.user._id],
+      isGroupChat: true,
     });
 
-  res.status(200).json(fullGroupChat);
+    const newAnonymousId = new AnonymousId({
+      user: req.user._id,
+      chat: groupChat._id,
+      anonymousId: await generateUniqueId(),
+    });
+
+    const anonymousId = await newAnonymousId.save();
+
+    await Chat.findByIdAndUpdate(groupChat._id, {
+      $push: { anonymousIds: anonymousId._id },
+    });
+
+    const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
+      .populate("users", "-password")
+      .populate("anonymousIds");
+
+    res.status(200).json(fullGroupChat);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
 });
+
+// const createInterestChat = asyncHandler(async (req, res) => {
+//   if (!req.body.name) {
+//     return res.status(400).send("Please provide a chat name");
+//   }
+
+//   const { name } = req.body;
+//   const chat = await Chat.findOne({ chatName: name });
+
+//   if (chat) {
+//     return res.status(400).send("Chat name already taken");
+//   }
+
+//   // Generate a new anonymousId for the user
+//   const anonymousId = await AnonymousId.create({
+//     user: req.user._id,
+//     chat: null,
+//     anonymousId: await generateUniqueId(),
+//   });
+
+//   const groupChat = await Chat.create({
+//     chatName: name,
+//     users: [req.user._id],
+//     isGroupChat: true,
+//     anonymousIds: [anonymousId._id],
+//   });
+
+//   const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
+//     .populate("users", "-password")
+//     .populate({
+//       path: "anonymousIds",
+//       populate: {
+//         path: "user",
+//         select: "-password",
+//       },
+//     });
+
+//   res.status(200).json(fullGroupChat);
+// });
 
 // const createIntrestChat = asyncHandler(async (req, res) => {
 //   if (

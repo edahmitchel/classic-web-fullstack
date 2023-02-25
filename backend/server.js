@@ -38,10 +38,10 @@ app.use(
 
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
-app.get("/api/chat/:id", (req, res) => {
-  console.log(req.params.id);
-  cons;
-});
+// app.get("/api/chat/:id", (req, res) => {
+//   console.log(req.params.id);
+//   cons;
+// });
 app.use("/api/users", userRoutes);
 
 // --------------------------deployment------------------------------
@@ -49,7 +49,7 @@ app.use("/api/users", userRoutes);
 const __dirname1 = path.resolve();
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname1, "/frontend/build")));
+  app.use(express.static(path.join(__dirname1, "frontend", "build")));
 
   app.get("*", (req, res) =>
     res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))

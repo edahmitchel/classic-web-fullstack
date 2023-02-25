@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 
 const messageModel = mongoose.Schema(
   {
-    anonymousId: { type: String, trim: true },
+    anonymousId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "AnonymousId",
+      required: true,
+    },
     sender: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

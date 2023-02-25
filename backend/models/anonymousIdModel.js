@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const anonymousIdSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -15,4 +16,4 @@ const anonymousIdSchema = mongoose.Schema({
 });
 
 const AnonymousId = mongoose.model("AnonymousId", anonymousIdSchema);
-module.exports = AnonymousId;
+module.exports = { AnonymousId };

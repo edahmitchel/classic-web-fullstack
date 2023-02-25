@@ -2,11 +2,11 @@ const express = require("express");
 const {
   accessChat,
   fetchChats,
-  createIntrestChat,
-  renameIntrestChat,
-  joinIntrestChat,
-  removeIntrestChat,
-  fetchAllIntrestChat,
+  createInterestChat,
+  renameInterestChat,
+  joinInterestChat,
+  removeInterestChat,
+  fetchAllInterestChat,
 } = require("../controllers/chatControllers");
 
 const { protect } = require("../middleware/authMiddleware");
@@ -15,12 +15,12 @@ const router = express.Router();
 router.route("/").post(protect, accessChat).get(protect, fetchChats);
 router
   .route("/intrest")
-  .post(protect, createIntrestChat)
-  .get(protect, fetchAllIntrestChat);
+  .post(protect, createInterestChat)
+  .get(protect, fetchAllInterestChat);
 // .put;
-router.route("/intrest/rename").put(protect, renameIntrestChat);
-router.route("/intrest/delete").put(protect, removeIntrestChat);
-router.route("/intrest/join").put(protect, joinIntrestChat);
+router.route("/intrest/rename").put(protect, renameInterestChat);
+router.route("/intrest/delete").put(protect, removeInterestChat);
+router.route("/intrest/join").put(protect, joinInterestChat);
 
 // router.route("/");
 module.exports = router;

@@ -252,7 +252,8 @@ const fetchAllInterestChat = asyncHandler(async (req, res) => {
 const deleteInterestChat = asyncHandler(async (req, res) => {});
 
 const joinInterestChat = asyncHandler(async (req, res) => {
-  const { chatId } = req.params;
+  console.log("here");
+  const { chatId } = req.body;
 
   const chat = await Chat.findById(chatId);
   if (!chat) {

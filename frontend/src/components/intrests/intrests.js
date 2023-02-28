@@ -195,7 +195,15 @@ const Intrests = ({
                           <Text>{chat.chatName}</Text>
                           {chat.latestMessage && (
                             <Text fontSize="xs">
-                              <b>{chat.latestMessage.sender.username} : </b>
+                              <b>
+                                {
+                                  // chat?.latestMessage?.anonymousId
+                                  //   ?.anonymousId ||
+                                  //   chat.latestMessage.sender.username
+                                  "sender"
+                                }{" "}
+                                :{" "}
+                              </b>
                               {chat.latestMessage.content.length > 50
                                 ? chat.latestMessage.content.substring(0, 51) +
                                   "..."

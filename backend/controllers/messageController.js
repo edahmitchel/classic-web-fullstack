@@ -57,6 +57,10 @@ const sendMessage = asyncHandler(async (req, res) => {
     // Populate the sender, chat, and anonymousId fields of the message document with the corresponding documents
     message = await Message.findOne({ _id: message._id })
       .populate("sender", "username pic")
+      .populate(
+        "anonymousId"
+        // select: "anonymousId",
+      )
       .populate({
         path: "chat",
         select: "chatName isGroupChat users",
@@ -66,10 +70,6 @@ const sendMessage = asyncHandler(async (req, res) => {
           select: "username pic email",
           model: "User",
         },
-      })
-      .populate({
-        path: "anonymousId",
-        select: "anonymousId",
       });
 
     // Update the latestMessage field of the Chat document with the saved message

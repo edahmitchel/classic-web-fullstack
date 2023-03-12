@@ -175,7 +175,17 @@ const updateUser = asyncHandler(
     try {
       const user = await User.findByIdAndUpdate(req.user._id, { ...update });
       const newuser = await User.findById(req.user._id);
-      res.send(newuser);
+      res.statue(200).json({
+        username: newuser.username,
+        email: user.email,
+        // password: user.password,
+        gender: newuser.gender,
+        dob: newuser.dob,
+        pic: newuser.pic,
+        isVerified: newuser.isVerified,
+        _id: newuser._id,
+        token: generateToken(newuser._id),
+      });
     } catch (err) {
       res.status(404);
       res.send({ error: "user doesn't exist!", data: err });

@@ -21,6 +21,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const postData = (pics) => {
     setLoading(true);
+    console.log(pics);
     if (pics === undefined) {
       toast({
         title: "please select an image.",

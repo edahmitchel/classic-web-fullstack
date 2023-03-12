@@ -15,8 +15,10 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
+import { ChatState } from "../../context/chatProvider";
 
 export const Userdatamodal = ({ children }) => {
+  const { user } = ChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   function UpdateUserForm(props) {
     // Create state variables for the form fields
@@ -31,13 +33,20 @@ export const Userdatamodal = ({ children }) => {
 
       // Send a PATCH request to the server to update the user details
       try {
+        const token = user.token;
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
         const response = await axios.patch(
           `https://classicweb.onrender.com/api/users`,
           {
             name,
             email,
             pic,
-          }
+          },
+          config
         );
         console.log(response.data);
       } catch (err) {

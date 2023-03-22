@@ -230,7 +230,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 {/* MESSAGES */}
               </Box>
             )}
-            <Box position={"absolute"} bottom="0" mt={3} w="98%">
+            <Box bottom="0" mt={3} w="98%" h={40}>
               <FormControl
                 onKeyDown={sendMessage}
                 isRequired

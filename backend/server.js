@@ -36,13 +36,13 @@ app.use(
 //   res.send("hello world");
 // });
 
-app.use("/api/chat", chatRoutes);
-app.use("/api/message", messageRoutes);
+app.use("/api//chat", chatRoutes);
+app.use("/api//message", messageRoutes);
 // app.get("/api/chat/:id", (req, res) => {
 //   console.log(req.params.id);
 //   cons;
 // });
-app.use("/api/users", userRoutes);
+app.use("/api//users", userRoutes);
 
 // --------------------------deployment------------------------------
 
